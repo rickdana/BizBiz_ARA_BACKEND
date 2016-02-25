@@ -1,0 +1,550 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'C:\\Program Files\\nodejs\\\\node.exe',
+1 verbose cli   'C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js',
+1 verbose cli   'install',
+1 verbose cli   'bcrypt' ]
+2 info using npm@2.11.3
+3 info using node@v0.12.7
+4 verbose install initial load of D:\Perso\OccazStreet\OccazStreetBO\package.json
+5 verbose installManyTop reading scoped package data from D:\Perso\OccazStreet\OccazStreetBO\node_modules\ejs\package.json
+6 verbose installManyTop reading scoped package data from D:\Perso\OccazStreet\OccazStreetBO\node_modules\email-templates\package.json
+7 verbose installManyTop reading scoped package data from D:\Perso\OccazStreet\OccazStreetBO\node_modules\include-all\package.json
+8 verbose installManyTop reading scoped package data from D:\Perso\OccazStreet\OccazStreetBO\node_modules\jsonwebtoken\package.json
+9 verbose installManyTop reading scoped package data from D:\Perso\OccazStreet\OccazStreetBO\node_modules\moment\package.json
+10 verbose installManyTop reading scoped package data from D:\Perso\OccazStreet\OccazStreetBO\node_modules\nexmoapi\package.json
+11 verbose installManyTop reading scoped package data from D:\Perso\OccazStreet\OccazStreetBO\node_modules\nodemailer\package.json
+12 verbose installManyTop reading scoped package data from D:\Perso\OccazStreet\OccazStreetBO\node_modules\rc\package.json
+13 verbose installManyTop reading scoped package data from D:\Perso\OccazStreet\OccazStreetBO\node_modules\sails\package.json
+14 verbose installManyTop reading scoped package data from D:\Perso\OccazStreet\OccazStreetBO\node_modules\sails-disk\package.json
+15 info package.json sails@0.11.5 No license field.
+16 info package.json email-templates@1.3.0 No license field.
+17 info package.json ejs@0.8.8 No license field.
+18 info package.json nexmoapi@2.0.3 No license field.
+19 info package.json nodemailer@0.7.1 No license field.
+20 info package.json rc@0.5.5 No license field.
+21 verbose readDependencies loading dependencies from D:\Perso\OccazStreet\OccazStreetBO\package.json
+22 silly cache add args [ 'bcrypt', null ]
+23 verbose cache add spec bcrypt
+24 silly cache add parsed spec { raw: 'bcrypt',
+24 silly cache add   scope: null,
+24 silly cache add   name: 'bcrypt',
+24 silly cache add   rawSpec: '',
+24 silly cache add   spec: '*',
+24 silly cache add   type: 'range' }
+25 silly addNamed bcrypt@*
+26 verbose addNamed "*" is a valid semver range for bcrypt
+27 silly addNameRange { name: 'bcrypt', range: '*', hasData: false }
+28 silly mapToRegistry name bcrypt
+29 silly mapToRegistry using default registry
+30 silly mapToRegistry registry https://registry.npmjs.org/
+31 silly mapToRegistry uri https://registry.npmjs.org/bcrypt
+32 verbose addNameRange registry:https://registry.npmjs.org/bcrypt not in flight; fetching
+33 verbose request uri https://registry.npmjs.org/bcrypt
+34 verbose request no auth needed
+35 info attempt registry request try #1 at 12:13:32
+36 verbose request id bf0e24b668854cb0
+37 verbose etag "1R6IPG6QUMP0IY6OSUM2DH2SH"
+38 http request GET https://registry.npmjs.org/bcrypt
+39 http 304 https://registry.npmjs.org/bcrypt
+40 silly get cb [ 304,
+40 silly get   { date: 'Wed, 17 Feb 2016 11:13:33 GMT',
+40 silly get     via: '1.1 varnish',
+40 silly get     'cache-control': 'max-age=300',
+40 silly get     etag: '"1R6IPG6QUMP0IY6OSUM2DH2SH"',
+40 silly get     age: '281',
+40 silly get     connection: 'keep-alive',
+40 silly get     'x-served-by': 'cache-lhr6322-LHR',
+40 silly get     'x-cache': 'HIT',
+40 silly get     'x-cache-hits': '1',
+40 silly get     'x-timer': 'S1455707613.127578,VS0,VE0',
+40 silly get     vary: 'Accept' } ]
+41 verbose etag https://registry.npmjs.org/bcrypt from cache
+42 verbose get saving bcrypt to C:\Users\fleundeu\AppData\Roaming\npm-cache\registry.npmjs.org\bcrypt\.cache.json
+43 silly addNameRange number 2 { name: 'bcrypt', range: '*', hasData: true }
+44 silly addNameRange versions [ 'bcrypt',
+44 silly addNameRange   [ '0.1.2',
+44 silly addNameRange     '0.2.0',
+44 silly addNameRange     '0.2.1',
+44 silly addNameRange     '0.1.3',
+44 silly addNameRange     '0.2.2',
+44 silly addNameRange     '0.2.3',
+44 silly addNameRange     '0.2.4',
+44 silly addNameRange     '0.3.0',
+44 silly addNameRange     '0.3.1',
+44 silly addNameRange     '0.3.2',
+44 silly addNameRange     '0.4.0',
+44 silly addNameRange     '0.4.1',
+44 silly addNameRange     '0.5.0',
+44 silly addNameRange     '0.6.0',
+44 silly addNameRange     '0.7.0',
+44 silly addNameRange     '0.7.1',
+44 silly addNameRange     '0.7.2',
+44 silly addNameRange     '0.7.3',
+44 silly addNameRange     '0.7.4',
+44 silly addNameRange     '0.7.5',
+44 silly addNameRange     '0.7.6',
+44 silly addNameRange     '0.7.7',
+44 silly addNameRange     '0.7.8',
+44 silly addNameRange     '0.8.0',
+44 silly addNameRange     '0.8.1',
+44 silly addNameRange     '0.8.2',
+44 silly addNameRange     '0.8.3',
+44 silly addNameRange     '0.8.4',
+44 silly addNameRange     '0.8.5' ] ]
+45 silly addNamed bcrypt@0.8.5
+46 verbose addNamed "0.8.5" is a plain semver version for bcrypt
+47 silly cache afterAdd bcrypt@0.8.5
+48 verbose afterAdd C:\Users\fleundeu\AppData\Roaming\npm-cache\bcrypt\0.8.5\package\package.json not in flight; writing
+49 verbose afterAdd C:\Users\fleundeu\AppData\Roaming\npm-cache\bcrypt\0.8.5\package\package.json written
+50 silly install resolved [ { name: 'bcrypt',
+50 silly install resolved     description: 'A bcrypt library for NodeJS.',
+50 silly install resolved     keywords:
+50 silly install resolved      [ 'bcrypt',
+50 silly install resolved        'password',
+50 silly install resolved        'auth',
+50 silly install resolved        'authentication',
+50 silly install resolved        'encryption',
+50 silly install resolved        'crypt',
+50 silly install resolved        'crypto' ],
+50 silly install resolved     main: './bcrypt',
+50 silly install resolved     version: '0.8.5',
+50 silly install resolved     author: { name: 'Nick Campbell', url: 'https://github.com/ncb000gt' },
+50 silly install resolved     engines: { node: '>= 0.6.0' },
+50 silly install resolved     repository:
+50 silly install resolved      { type: 'git',
+50 silly install resolved        url: 'git+https://github.com/ncb000gt/node.bcrypt.js.git' },
+50 silly install resolved     license: 'MIT',
+50 silly install resolved     bugs: { url: 'https://github.com/ncb000gt/node.bcrypt.js/issues' },
+50 silly install resolved     scripts:
+50 silly install resolved      { test: 'node-gyp configure build && nodeunit test',
+50 silly install resolved        install: 'node-gyp rebuild' },
+50 silly install resolved     dependencies: { bindings: '1.2.1', nan: '2.0.5' },
+50 silly install resolved     devDependencies: { nodeunit: '~0.9.1' },
+50 silly install resolved     contributors:
+50 silly install resolved      [ [Object],
+50 silly install resolved        [Object],
+50 silly install resolved        [Object],
+50 silly install resolved        [Object],
+50 silly install resolved        [Object],
+50 silly install resolved        [Object],
+50 silly install resolved        [Object],
+50 silly install resolved        [Object],
+50 silly install resolved        [Object],
+50 silly install resolved        [Object],
+50 silly install resolved        [Object],
+50 silly install resolved        [Object],
+50 silly install resolved        [Object],
+50 silly install resolved        [Object] ],
+50 silly install resolved     gypfile: true,
+50 silly install resolved     gitHead: '5d97708f06754d7d7989c67ba867002d10013615',
+50 silly install resolved     homepage: 'https://github.com/ncb000gt/node.bcrypt.js#readme',
+50 silly install resolved     _id: 'bcrypt@0.8.5',
+50 silly install resolved     _shasum: '8e5b81b4db80e944f440005979ca8d58a961861d',
+50 silly install resolved     _from: 'bcrypt@*',
+50 silly install resolved     _npmVersion: '2.13.3',
+50 silly install resolved     _nodeVersion: '3.0.0',
+50 silly install resolved     _npmUser: { name: 'defunctzombie', email: 'shtylman@gmail.com' },
+50 silly install resolved     dist:
+50 silly install resolved      { shasum: '8e5b81b4db80e944f440005979ca8d58a961861d',
+50 silly install resolved        tarball: 'http://registry.npmjs.org/bcrypt/-/bcrypt-0.8.5.tgz' },
+50 silly install resolved     maintainers: [ [Object], [Object], [Object], [Object] ],
+50 silly install resolved     directories: {},
+50 silly install resolved     _resolved: 'https://registry.npmjs.org/bcrypt/-/bcrypt-0.8.5.tgz',
+50 silly install resolved     readme: 'ERROR: No README data found!' } ]
+51 info install bcrypt@0.8.5 into D:\Perso\OccazStreet\OccazStreetBO
+52 info installOne bcrypt@0.8.5
+53 verbose installOne of bcrypt to D:\Perso\OccazStreet\OccazStreetBO not in flight; installing
+54 verbose lock using C:\Users\fleundeu\AppData\Roaming\npm-cache\_locks\bcrypt-6bb90ae5de85a4d9.lock for D:\Perso\OccazStreet\OccazStreetBO\node_modules\bcrypt
+55 silly install write writing bcrypt 0.8.5 to D:\Perso\OccazStreet\OccazStreetBO\node_modules\bcrypt
+56 verbose unbuild node_modules\bcrypt
+57 silly gentlyRm D:\Perso\OccazStreet\OccazStreetBO\node_modules\bcrypt is being purged from base D:\Perso\OccazStreet\OccazStreetBO
+58 verbose gentlyRm don't care about contents; nuking D:\Perso\OccazStreet\OccazStreetBO\node_modules\bcrypt
+59 verbose tar unpack C:\Users\fleundeu\AppData\Roaming\npm-cache\bcrypt\0.8.5\package.tgz
+60 verbose tar unpacking to D:\Perso\OccazStreet\OccazStreetBO\node_modules\bcrypt
+61 silly gentlyRm D:\Perso\OccazStreet\OccazStreetBO\node_modules\bcrypt is being purged
+62 verbose gentlyRm don't care about contents; nuking D:\Perso\OccazStreet\OccazStreetBO\node_modules\bcrypt
+63 silly gunzTarPerm modes [ '777', '666' ]
+64 silly gunzTarPerm extractEntry package.json
+65 silly gunzTarPerm modified mode [ 'package.json', 420, 438 ]
+66 silly gunzTarPerm extractEntry .npmignore
+67 silly gunzTarPerm modified mode [ '.npmignore', 420, 438 ]
+68 silly gunzTarPerm extractEntry README.md
+69 silly gunzTarPerm modified mode [ 'README.md', 420, 438 ]
+70 silly gunzTarPerm extractEntry LICENSE
+71 silly gunzTarPerm modified mode [ 'LICENSE', 420, 438 ]
+72 silly gunzTarPerm extractEntry bcrypt.js
+73 silly gunzTarPerm modified mode [ 'bcrypt.js', 420, 438 ]
+74 silly gunzTarPerm extractEntry binding.gyp
+75 silly gunzTarPerm modified mode [ 'binding.gyp', 420, 438 ]
+76 silly gunzTarPerm extractEntry .travis.yml
+77 silly gunzTarPerm modified mode [ '.travis.yml', 420, 438 ]
+78 silly gunzTarPerm extractEntry CHANGELOG.md
+79 silly gunzTarPerm modified mode [ 'CHANGELOG.md', 420, 438 ]
+80 silly gunzTarPerm extractEntry examples/async_compare.js
+81 silly gunzTarPerm modified mode [ 'examples/async_compare.js', 420, 438 ]
+82 silly gunzTarPerm extractEntry examples/forever_gen_salt.js
+83 silly gunzTarPerm modified mode [ 'examples/forever_gen_salt.js', 420, 438 ]
+84 silly gunzTarPerm extractEntry test/async.js
+85 silly gunzTarPerm modified mode [ 'test/async.js', 420, 438 ]
+86 silly gunzTarPerm extractEntry test/repetitions.js
+87 silly gunzTarPerm modified mode [ 'test/repetitions.js', 420, 438 ]
+88 silly gunzTarPerm extractEntry test/sync.js
+89 silly gunzTarPerm modified mode [ 'test/sync.js', 420, 438 ]
+90 silly gunzTarPerm extractEntry Makefile
+91 silly gunzTarPerm modified mode [ 'Makefile', 420, 438 ]
+92 silly gunzTarPerm extractEntry src/bcrypt.cc
+93 silly gunzTarPerm modified mode [ 'src/bcrypt.cc', 420, 438 ]
+94 silly gunzTarPerm extractEntry src/bcrypt_node.cc
+95 silly gunzTarPerm modified mode [ 'src/bcrypt_node.cc', 420, 438 ]
+96 silly gunzTarPerm extractEntry src/blowfish.cc
+97 silly gunzTarPerm modified mode [ 'src/blowfish.cc', 420, 438 ]
+98 silly gunzTarPerm extractEntry src/node_blf.h
+99 silly gunzTarPerm modified mode [ 'src/node_blf.h', 420, 438 ]
+100 silly gunzTarPerm extractEntry werker.yml
+101 silly gunzTarPerm modified mode [ 'werker.yml', 420, 438 ]
+102 verbose write writing to D:\Perso\OccazStreet\OccazStreetBO\node_modules\bcrypt\package.json
+103 info preinstall bcrypt@0.8.5
+104 verbose readDependencies loading dependencies from D:\Perso\OccazStreet\OccazStreetBO\node_modules\bcrypt\package.json
+105 silly prepareForInstallMany adding bindings@1.2.1 from bcrypt dependencies
+106 silly prepareForInstallMany adding nan@2.0.5 from bcrypt dependencies
+107 verbose readDependencies loading dependencies from D:\Perso\OccazStreet\OccazStreetBO\node_modules\bcrypt\package.json
+108 silly cache add args [ 'bindings@1.2.1', null ]
+109 verbose cache add spec bindings@1.2.1
+110 silly cache add args [ 'nan@2.0.5', null ]
+111 verbose cache add spec nan@2.0.5
+112 silly cache add parsed spec { raw: 'bindings@1.2.1',
+112 silly cache add   scope: null,
+112 silly cache add   name: 'bindings',
+112 silly cache add   rawSpec: '1.2.1',
+112 silly cache add   spec: '1.2.1',
+112 silly cache add   type: 'version' }
+113 silly addNamed bindings@1.2.1
+114 verbose addNamed "1.2.1" is a plain semver version for bindings
+115 silly mapToRegistry name bindings
+116 silly mapToRegistry using default registry
+117 silly mapToRegistry registry https://registry.npmjs.org/
+118 silly mapToRegistry uri https://registry.npmjs.org/bindings
+119 verbose addNameVersion registry:https://registry.npmjs.org/bindings not in flight; fetching
+120 silly cache add parsed spec { raw: 'nan@2.0.5',
+120 silly cache add   scope: null,
+120 silly cache add   name: 'nan',
+120 silly cache add   rawSpec: '2.0.5',
+120 silly cache add   spec: '2.0.5',
+120 silly cache add   type: 'version' }
+121 silly addNamed nan@2.0.5
+122 verbose addNamed "2.0.5" is a plain semver version for nan
+123 silly mapToRegistry name nan
+124 silly mapToRegistry using default registry
+125 silly mapToRegistry registry https://registry.npmjs.org/
+126 silly mapToRegistry uri https://registry.npmjs.org/nan
+127 verbose addNameVersion registry:https://registry.npmjs.org/nan not in flight; fetching
+128 verbose request uri https://registry.npmjs.org/bindings
+129 verbose request no auth needed
+130 info attempt registry request try #1 at 12:13:33
+131 verbose etag "1LLBF9OH58DLBEL4629U6032D"
+132 http request GET https://registry.npmjs.org/bindings
+133 verbose request uri https://registry.npmjs.org/nan
+134 verbose request no auth needed
+135 info attempt registry request try #1 at 12:13:33
+136 verbose etag "7Y2U1A5TWU1O0YTKGMD4FB8ZN"
+137 http request GET https://registry.npmjs.org/nan
+138 http 304 https://registry.npmjs.org/bindings
+139 silly get cb [ 304,
+139 silly get   { date: 'Wed, 17 Feb 2016 11:13:33 GMT',
+139 silly get     via: '1.1 varnish',
+139 silly get     'cache-control': 'max-age=300',
+139 silly get     etag: '"1LLBF9OH58DLBEL4629U6032D"',
+139 silly get     age: '29',
+139 silly get     connection: 'keep-alive',
+139 silly get     'x-served-by': 'cache-lhr6334-LHR',
+139 silly get     'x-cache': 'HIT',
+139 silly get     'x-cache-hits': '1',
+139 silly get     'x-timer': 'S1455707613.395002,VS0,VE0',
+139 silly get     vary: 'Accept' } ]
+140 verbose etag https://registry.npmjs.org/bindings from cache
+141 verbose get saving bindings to C:\Users\fleundeu\AppData\Roaming\npm-cache\registry.npmjs.org\bindings\.cache.json
+142 http 304 https://registry.npmjs.org/nan
+143 silly get cb [ 304,
+143 silly get   { date: 'Wed, 17 Feb 2016 11:13:33 GMT',
+143 silly get     via: '1.1 varnish',
+143 silly get     'cache-control': 'max-age=300',
+143 silly get     etag: '"7Y2U1A5TWU1O0YTKGMD4FB8ZN"',
+143 silly get     age: '161',
+143 silly get     connection: 'keep-alive',
+143 silly get     'x-served-by': 'cache-lhr6331-LHR',
+143 silly get     'x-cache': 'HIT',
+143 silly get     'x-cache-hits': '8',
+143 silly get     'x-timer': 'S1455707613.403455,VS0,VE0',
+143 silly get     vary: 'Accept' } ]
+144 verbose etag https://registry.npmjs.org/nan from cache
+145 verbose get saving nan to C:\Users\fleundeu\AppData\Roaming\npm-cache\registry.npmjs.org\nan\.cache.json
+146 silly cache afterAdd bindings@1.2.1
+147 verbose afterAdd C:\Users\fleundeu\AppData\Roaming\npm-cache\bindings\1.2.1\package\package.json not in flight; writing
+148 verbose afterAdd C:\Users\fleundeu\AppData\Roaming\npm-cache\bindings\1.2.1\package\package.json written
+149 silly cache afterAdd nan@2.0.5
+150 verbose afterAdd C:\Users\fleundeu\AppData\Roaming\npm-cache\nan\2.0.5\package\package.json not in flight; writing
+151 verbose afterAdd C:\Users\fleundeu\AppData\Roaming\npm-cache\nan\2.0.5\package\package.json written
+152 silly install resolved [ { name: 'bindings',
+152 silly install resolved     description: 'Helper module for loading your native module\'s .node file',
+152 silly install resolved     keywords: [ 'native', 'addon', 'bindings', 'gyp', 'waf', 'c', 'c++' ],
+152 silly install resolved     version: '1.2.1',
+152 silly install resolved     author:
+152 silly install resolved      { name: 'Nathan Rajlich',
+152 silly install resolved        email: 'nathan@tootallnate.net',
+152 silly install resolved        url: 'http://tootallnate.net' },
+152 silly install resolved     repository:
+152 silly install resolved      { type: 'git',
+152 silly install resolved        url: 'git://github.com/TooTallNate/node-bindings.git' },
+152 silly install resolved     main: './bindings.js',
+152 silly install resolved     bugs: { url: 'https://github.com/TooTallNate/node-bindings/issues' },
+152 silly install resolved     homepage: 'https://github.com/TooTallNate/node-bindings',
+152 silly install resolved     license: 'MIT',
+152 silly install resolved     gitHead: 'e404152ee27f8478ccbc7122ee051246e8e5ec02',
+152 silly install resolved     _id: 'bindings@1.2.1',
+152 silly install resolved     scripts: {},
+152 silly install resolved     _shasum: '14ad6113812d2d37d72e67b4cacb4bb726505f11',
+152 silly install resolved     _from: 'bindings@1.2.1',
+152 silly install resolved     _npmVersion: '1.4.14',
+152 silly install resolved     _npmUser: { name: 'tootallnate', email: 'nathan@tootallnate.net' },
+152 silly install resolved     maintainers: [ [Object], [Object] ],
+152 silly install resolved     dist:
+152 silly install resolved      { shasum: '14ad6113812d2d37d72e67b4cacb4bb726505f11',
+152 silly install resolved        tarball: 'http://registry.npmjs.org/bindings/-/bindings-1.2.1.tgz' },
+152 silly install resolved     directories: {},
+152 silly install resolved     _resolved: 'https://registry.npmjs.org/bindings/-/bindings-1.2.1.tgz',
+152 silly install resolved     readme: 'ERROR: No README data found!' },
+152 silly install resolved   { name: 'nan',
+152 silly install resolved     version: '2.0.5',
+152 silly install resolved     description: 'Native Abstractions for Node.js: C++ header for Node 0.8->0.12 compatibility',
+152 silly install resolved     main: 'include_dirs.js',
+152 silly install resolved     repository: { type: 'git', url: 'git://github.com/nodejs/nan.git' },
+152 silly install resolved     scripts:
+152 silly install resolved      { test: 'tap --gc test/js/*-test.js',
+152 silly install resolved        'rebuild-tests': 'pangyp rebuild --msvs_version=2013 --directory test',
+152 silly install resolved        docs: 'doc/.build.sh' },
+152 silly install resolved     contributors:
+152 silly install resolved      [ [Object],
+152 silly install resolved        [Object],
+152 silly install resolved        [Object],
+152 silly install resolved        [Object],
+152 silly install resolved        [Object],
+152 silly install resolved        [Object],
+152 silly install resolved        [Object] ],
+152 silly install resolved     devDependencies:
+152 silly install resolved      { bindings: '~1.2.1',
+152 silly install resolved        'node-gyp': '~2.0.2',
+152 silly install resolved        pangyp: '~2.2.0',
+152 silly install resolved        tap: '~0.7.1',
+152 silly install resolved        xtend: '~4.0.0' },
+152 silly install resolved     license: 'MIT',
+152 silly install resolved     gitHead: 'd13a2e9ce762fd130877b53c71d35963fa2cf689',
+152 silly install resolved     bugs: { url: 'https://github.com/nodejs/nan/issues' },
+152 silly install resolved     homepage: 'https://github.com/nodejs/nan#readme',
+152 silly install resolved     _id: 'nan@2.0.5',
+152 silly install resolved     _shasum: '365888014be1fd178db0cbfa258edf7b0cb1c408',
+152 silly install resolved     _from: 'nan@2.0.5',
+152 silly install resolved     _npmVersion: '2.13.3',
+152 silly install resolved     _nodeVersion: '3.0.0',
+152 silly install resolved     _npmUser: { name: 'kkoopa', email: 'bbyholm@abo.fi' },
+152 silly install resolved     maintainers: [ [Object], [Object] ],
+152 silly install resolved     dist:
+152 silly install resolved      { shasum: '365888014be1fd178db0cbfa258edf7b0cb1c408',
+152 silly install resolved        tarball: 'http://registry.npmjs.org/nan/-/nan-2.0.5.tgz' },
+152 silly install resolved     directories: {},
+152 silly install resolved     _resolved: 'https://registry.npmjs.org/nan/-/nan-2.0.5.tgz',
+152 silly install resolved     readme: 'ERROR: No README data found!' } ]
+153 info install bindings@1.2.1 into D:\Perso\OccazStreet\OccazStreetBO\node_modules\bcrypt
+154 info install nan@2.0.5 into D:\Perso\OccazStreet\OccazStreetBO\node_modules\bcrypt
+155 info installOne bindings@1.2.1
+156 verbose installOne of bindings to D:\Perso\OccazStreet\OccazStreetBO\node_modules\bcrypt not in flight; installing
+157 info installOne nan@2.0.5
+158 verbose installOne of nan to D:\Perso\OccazStreet\OccazStreetBO\node_modules\bcrypt not in flight; installing
+159 verbose lock using C:\Users\fleundeu\AppData\Roaming\npm-cache\_locks\bindings-c8cc973393e7ff7c.lock for D:\Perso\OccazStreet\OccazStreetBO\node_modules\bcrypt\node_modules\bindings
+160 verbose lock using C:\Users\fleundeu\AppData\Roaming\npm-cache\_locks\nan-a32c99bfe3a2acc9.lock for D:\Perso\OccazStreet\OccazStreetBO\node_modules\bcrypt\node_modules\nan
+161 silly install write writing bindings 1.2.1 to D:\Perso\OccazStreet\OccazStreetBO\node_modules\bcrypt\node_modules\bindings
+162 silly install write writing nan 2.0.5 to D:\Perso\OccazStreet\OccazStreetBO\node_modules\bcrypt\node_modules\nan
+163 verbose unbuild node_modules\bcrypt\node_modules\bindings
+164 verbose unbuild node_modules\bcrypt\node_modules\nan
+165 silly gentlyRm D:\Perso\OccazStreet\OccazStreetBO\node_modules\bcrypt\node_modules\bindings is being purged from base D:\Perso\OccazStreet\OccazStreetBO
+166 verbose gentlyRm don't care about contents; nuking D:\Perso\OccazStreet\OccazStreetBO\node_modules\bcrypt\node_modules\bindings
+167 silly gentlyRm D:\Perso\OccazStreet\OccazStreetBO\node_modules\bcrypt\node_modules\nan is being purged from base D:\Perso\OccazStreet\OccazStreetBO
+168 verbose gentlyRm don't care about contents; nuking D:\Perso\OccazStreet\OccazStreetBO\node_modules\bcrypt\node_modules\nan
+169 verbose tar unpack C:\Users\fleundeu\AppData\Roaming\npm-cache\bindings\1.2.1\package.tgz
+170 verbose tar unpacking to D:\Perso\OccazStreet\OccazStreetBO\node_modules\bcrypt\node_modules\bindings
+171 silly gentlyRm D:\Perso\OccazStreet\OccazStreetBO\node_modules\bcrypt\node_modules\bindings is being purged
+172 verbose gentlyRm don't care about contents; nuking D:\Perso\OccazStreet\OccazStreetBO\node_modules\bcrypt\node_modules\bindings
+173 verbose tar unpack C:\Users\fleundeu\AppData\Roaming\npm-cache\nan\2.0.5\package.tgz
+174 verbose tar unpacking to D:\Perso\OccazStreet\OccazStreetBO\node_modules\bcrypt\node_modules\nan
+175 silly gentlyRm D:\Perso\OccazStreet\OccazStreetBO\node_modules\bcrypt\node_modules\nan is being purged
+176 verbose gentlyRm don't care about contents; nuking D:\Perso\OccazStreet\OccazStreetBO\node_modules\bcrypt\node_modules\nan
+177 silly gunzTarPerm modes [ '777', '666' ]
+178 silly gunzTarPerm modes [ '777', '666' ]
+179 silly gunzTarPerm extractEntry package.json
+180 silly gunzTarPerm modified mode [ 'package.json', 420, 438 ]
+181 silly gunzTarPerm extractEntry package.json
+182 silly gunzTarPerm modified mode [ 'package.json', 436, 438 ]
+183 silly gunzTarPerm extractEntry README.md
+184 silly gunzTarPerm modified mode [ 'README.md', 420, 438 ]
+185 silly gunzTarPerm extractEntry bindings.js
+186 silly gunzTarPerm modified mode [ 'bindings.js', 420, 438 ]
+187 silly gunzTarPerm extractEntry README.md
+188 silly gunzTarPerm modified mode [ 'README.md', 436, 438 ]
+189 silly gunzTarPerm extractEntry include_dirs.js
+190 silly gunzTarPerm modified mode [ 'include_dirs.js', 436, 438 ]
+191 silly gunzTarPerm extractEntry nan_converters.h
+192 silly gunzTarPerm modified mode [ 'nan_converters.h', 436, 438 ]
+193 silly gunzTarPerm extractEntry LICENSE.md
+194 silly gunzTarPerm modified mode [ 'LICENSE.md', 436, 438 ]
+195 silly gunzTarPerm extractEntry .dntrc
+196 silly gunzTarPerm modified mode [ '.dntrc', 436, 438 ]
+197 silly gunzTarPerm extractEntry appveyor.yml
+198 silly gunzTarPerm modified mode [ 'appveyor.yml', 436, 438 ]
+199 silly gunzTarPerm extractEntry doc/new.md
+200 silly gunzTarPerm modified mode [ 'doc/new.md', 436, 438 ]
+201 silly gunzTarPerm extractEntry doc/.build.sh
+202 silly gunzTarPerm modified mode [ 'doc/.build.sh', 509, 511 ]
+203 verbose write writing to D:\Perso\OccazStreet\OccazStreetBO\node_modules\bcrypt\node_modules\bindings\package.json
+204 silly gunzTarPerm extractEntry doc/buffers.md
+205 silly gunzTarPerm modified mode [ 'doc/buffers.md', 436, 438 ]
+206 silly gunzTarPerm extractEntry doc/callback.md
+207 silly gunzTarPerm modified mode [ 'doc/callback.md', 436, 438 ]
+208 info preinstall bindings@1.2.1
+209 verbose readDependencies loading dependencies from D:\Perso\OccazStreet\OccazStreetBO\node_modules\bcrypt\node_modules\bindings\package.json
+210 silly gunzTarPerm extractEntry doc/converters.md
+211 silly gunzTarPerm modified mode [ 'doc/converters.md', 436, 438 ]
+212 silly gunzTarPerm extractEntry doc/errors.md
+213 silly gunzTarPerm modified mode [ 'doc/errors.md', 436, 438 ]
+214 verbose readDependencies loading dependencies from D:\Perso\OccazStreet\OccazStreetBO\node_modules\bcrypt\node_modules\bindings\package.json
+215 silly install resolved []
+216 verbose about to build D:\Perso\OccazStreet\OccazStreetBO\node_modules\bcrypt\node_modules\bindings
+217 info build D:\Perso\OccazStreet\OccazStreetBO\node_modules\bcrypt\node_modules\bindings
+218 silly gunzTarPerm extractEntry doc/maybe_types.md
+219 silly gunzTarPerm modified mode [ 'doc/maybe_types.md', 436, 438 ]
+220 silly gunzTarPerm extractEntry doc/methods.md
+221 silly gunzTarPerm modified mode [ 'doc/methods.md', 436, 438 ]
+222 info linkStuff bindings@1.2.1
+223 silly linkStuff bindings@1.2.1 has D:\Perso\OccazStreet\OccazStreetBO\node_modules\bcrypt\node_modules as its parent node_modules
+224 verbose linkBins bindings@1.2.1
+225 verbose linkMans bindings@1.2.1
+226 verbose rebuildBundles bindings@1.2.1
+227 info install bindings@1.2.1
+228 silly gunzTarPerm extractEntry doc/asyncworker.md
+229 silly gunzTarPerm modified mode [ 'doc/asyncworker.md', 436, 438 ]
+230 silly gunzTarPerm extractEntry doc/node_misc.md
+231 silly gunzTarPerm modified mode [ 'doc/node_misc.md', 436, 438 ]
+232 info postinstall bindings@1.2.1
+233 verbose unlock done using C:\Users\fleundeu\AppData\Roaming\npm-cache\_locks\bindings-c8cc973393e7ff7c.lock for D:\Perso\OccazStreet\OccazStreetBO\node_modules\bcrypt\node_modules\bindings
+234 silly gunzTarPerm extractEntry doc/persistent.md
+235 silly gunzTarPerm modified mode [ 'doc/persistent.md', 436, 438 ]
+236 silly gunzTarPerm extractEntry doc/scopes.md
+237 silly gunzTarPerm modified mode [ 'doc/scopes.md', 436, 438 ]
+238 silly gunzTarPerm extractEntry doc/script.md
+239 silly gunzTarPerm modified mode [ 'doc/script.md', 436, 438 ]
+240 silly gunzTarPerm extractEntry doc/string_bytes.md
+241 silly gunzTarPerm modified mode [ 'doc/string_bytes.md', 436, 438 ]
+242 silly gunzTarPerm extractEntry doc/v8_internals.md
+243 silly gunzTarPerm modified mode [ 'doc/v8_internals.md', 436, 438 ]
+244 silly gunzTarPerm extractEntry doc/v8_misc.md
+245 silly gunzTarPerm modified mode [ 'doc/v8_misc.md', 436, 438 ]
+246 silly gunzTarPerm extractEntry nan.h
+247 silly gunzTarPerm modified mode [ 'nan.h', 436, 438 ]
+248 silly gunzTarPerm extractEntry nan_callbacks.h
+249 silly gunzTarPerm modified mode [ 'nan_callbacks.h', 436, 438 ]
+250 silly gunzTarPerm extractEntry nan_callbacks_12_inl.h
+251 silly gunzTarPerm modified mode [ 'nan_callbacks_12_inl.h', 436, 438 ]
+252 silly gunzTarPerm extractEntry nan_callbacks_pre_12_inl.h
+253 silly gunzTarPerm modified mode [ 'nan_callbacks_pre_12_inl.h', 436, 438 ]
+254 silly gunzTarPerm extractEntry nan_converters_43_inl.h
+255 silly gunzTarPerm modified mode [ 'nan_converters_43_inl.h', 436, 438 ]
+256 silly gunzTarPerm extractEntry nan_converters_pre_43_inl.h
+257 silly gunzTarPerm modified mode [ 'nan_converters_pre_43_inl.h', 436, 438 ]
+258 silly gunzTarPerm extractEntry nan_implementation_12_inl.h
+259 silly gunzTarPerm modified mode [ 'nan_implementation_12_inl.h', 436, 438 ]
+260 silly gunzTarPerm extractEntry nan_implementation_pre_12_inl.h
+261 silly gunzTarPerm modified mode [ 'nan_implementation_pre_12_inl.h', 436, 438 ]
+262 silly gunzTarPerm extractEntry nan_maybe_43_inl.h
+263 silly gunzTarPerm modified mode [ 'nan_maybe_43_inl.h', 436, 438 ]
+264 silly gunzTarPerm extractEntry nan_maybe_pre_43_inl.h
+265 silly gunzTarPerm modified mode [ 'nan_maybe_pre_43_inl.h', 436, 438 ]
+266 silly gunzTarPerm extractEntry nan_new.h
+267 silly gunzTarPerm modified mode [ 'nan_new.h', 436, 438 ]
+268 silly gunzTarPerm extractEntry nan_object_wrap.h
+269 silly gunzTarPerm modified mode [ 'nan_object_wrap.h', 436, 438 ]
+270 silly gunzTarPerm extractEntry nan_persistent_12_inl.h
+271 silly gunzTarPerm modified mode [ 'nan_persistent_12_inl.h', 436, 438 ]
+272 silly gunzTarPerm extractEntry nan_persistent_pre_12_inl.h
+273 silly gunzTarPerm modified mode [ 'nan_persistent_pre_12_inl.h', 436, 438 ]
+274 silly gunzTarPerm extractEntry nan_string_bytes.h
+275 silly gunzTarPerm modified mode [ 'nan_string_bytes.h', 436, 438 ]
+276 silly gunzTarPerm extractEntry nan_weak.h
+277 silly gunzTarPerm modified mode [ 'nan_weak.h', 436, 438 ]
+278 silly gunzTarPerm extractEntry CHANGELOG.md
+279 silly gunzTarPerm modified mode [ 'CHANGELOG.md', 436, 438 ]
+280 silly gunzTarPerm extractEntry tools/package.json
+281 silly gunzTarPerm modified mode [ 'tools/package.json', 436, 438 ]
+282 silly gunzTarPerm extractEntry tools/README.md
+283 silly gunzTarPerm modified mode [ 'tools/README.md', 436, 438 ]
+284 silly gunzTarPerm extractEntry tools/1to2.js
+285 silly gunzTarPerm modified mode [ 'tools/1to2.js', 509, 511 ]
+286 verbose write writing to D:\Perso\OccazStreet\OccazStreetBO\node_modules\bcrypt\node_modules\nan\package.json
+287 info preinstall nan@2.0.5
+288 verbose readDependencies loading dependencies from D:\Perso\OccazStreet\OccazStreetBO\node_modules\bcrypt\node_modules\nan\package.json
+289 verbose readDependencies loading dependencies from D:\Perso\OccazStreet\OccazStreetBO\node_modules\bcrypt\node_modules\nan\package.json
+290 silly install resolved []
+291 verbose about to build D:\Perso\OccazStreet\OccazStreetBO\node_modules\bcrypt\node_modules\nan
+292 info build D:\Perso\OccazStreet\OccazStreetBO\node_modules\bcrypt\node_modules\nan
+293 info linkStuff nan@2.0.5
+294 silly linkStuff nan@2.0.5 has D:\Perso\OccazStreet\OccazStreetBO\node_modules\bcrypt\node_modules as its parent node_modules
+295 verbose linkBins nan@2.0.5
+296 verbose linkMans nan@2.0.5
+297 verbose rebuildBundles nan@2.0.5
+298 info install nan@2.0.5
+299 info postinstall nan@2.0.5
+300 verbose unlock done using C:\Users\fleundeu\AppData\Roaming\npm-cache\_locks\nan-a32c99bfe3a2acc9.lock for D:\Perso\OccazStreet\OccazStreetBO\node_modules\bcrypt\node_modules\nan
+301 verbose about to build D:\Perso\OccazStreet\OccazStreetBO\node_modules\bcrypt
+302 info build D:\Perso\OccazStreet\OccazStreetBO\node_modules\bcrypt
+303 info linkStuff bcrypt@0.8.5
+304 silly linkStuff bcrypt@0.8.5 has D:\Perso\OccazStreet\OccazStreetBO\node_modules as its parent node_modules
+305 verbose linkBins bcrypt@0.8.5
+306 verbose linkMans bcrypt@0.8.5
+307 verbose rebuildBundles bcrypt@0.8.5
+308 verbose rebuildBundles [ 'bindings', 'nan' ]
+309 info install bcrypt@0.8.5
+310 verbose unsafe-perm in lifecycle true
+311 info bcrypt@0.8.5 Failed to exec install script
+312 verbose unlock done using C:\Users\fleundeu\AppData\Roaming\npm-cache\_locks\bcrypt-6bb90ae5de85a4d9.lock for D:\Perso\OccazStreet\OccazStreetBO\node_modules\bcrypt
+313 verbose stack Error: bcrypt@0.8.5 install: `node-gyp rebuild`
+313 verbose stack Exit status 1
+313 verbose stack     at EventEmitter.<anonymous> (C:\Program Files\nodejs\node_modules\npm\lib\utils\lifecycle.js:213:16)
+313 verbose stack     at EventEmitter.emit (events.js:110:17)
+313 verbose stack     at ChildProcess.<anonymous> (C:\Program Files\nodejs\node_modules\npm\lib\utils\spawn.js:24:14)
+313 verbose stack     at ChildProcess.emit (events.js:110:17)
+313 verbose stack     at maybeClose (child_process.js:1015:16)
+313 verbose stack     at Process.ChildProcess._handle.onexit (child_process.js:1087:5)
+314 verbose pkgid bcrypt@0.8.5
+315 verbose cwd D:\Perso\OccazStreet\OccazStreetBO
+316 error Windows_NT 6.1.7601
+317 error argv "C:\\Program Files\\nodejs\\\\node.exe" "C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js" "install" "bcrypt"
+318 error node v0.12.7
+319 error npm  v2.11.3
+320 error code ELIFECYCLE
+321 error bcrypt@0.8.5 install: `node-gyp rebuild`
+321 error Exit status 1
+322 error Failed at the bcrypt@0.8.5 install script 'node-gyp rebuild'.
+322 error This is most likely a problem with the bcrypt package,
+322 error not with npm itself.
+322 error Tell the author that this fails on your system:
+322 error     node-gyp rebuild
+322 error You can get their info via:
+322 error     npm owner ls bcrypt
+322 error There is likely additional logging output above.
+323 verbose exit [ 1, true ]
+324 verbose unbuild node_modules\bcrypt
+325 info preuninstall bcrypt@0.8.5
+326 info uninstall bcrypt@0.8.5
+327 verbose unbuild rmStuff bcrypt@0.8.5 from D:\Perso\OccazStreet\OccazStreetBO\node_modules
+328 info postuninstall bcrypt@0.8.5
+329 silly gentlyRm D:\Perso\OccazStreet\OccazStreetBO\node_modules\bcrypt is being purged from base D:\Perso\OccazStreet\OccazStreetBO
+330 verbose gentlyRm don't care about contents; nuking D:\Perso\OccazStreet\OccazStreetBO\node_modules\bcrypt
+331 silly vacuum-fs purging D:\Perso\OccazStreet\OccazStreetBO\node_modules\bcrypt
+332 silly vacuum-fs quitting because other entries in D:\Perso\OccazStreet\OccazStreetBO\node_modules

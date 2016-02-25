@@ -1,0 +1,221 @@
+<br/>
+<br/>
+<div class="container">
+    <div class="row header">
+        <h1 id="main-title" class=""><%= __('Gestion des utilisateurs') %> | <%= __('utilisateur-inactif') %></h1>
+    </div>
+    <div class="row">
+        <div class="col-sm-4 col-xs-4 col-md-4 col-lg4">
+            <div class="step">
+                <h3><a  href="/utilisateur/addUtilisateur" class="btn btn-danger"><%=__('Ajouter-un-utilisateur')%></a></h3>
+            </div>
+        </div>
+        <div class="col-sm-4 col-xs-4 col-md-4 col-lg4">
+            <div class="step">
+                <h3><a  href="/utilisateur" class="btn btn-danger"><%=__('utilisateur-actif')%></a></h3>
+            </div>
+        </div>
+    </div>
+    <% if (success=='true'){%>
+    <div class="row">
+        <div class="alert alert-info">
+            <%= __('utilisateur.success.inscription')%>
+        </div>
+    </div>
+    <%}%>
+    <% if (typeof destroy !=='undefined' && destroy=='true'){%>
+    <div class="row">
+        <div class="alert alert-info">
+            <%= __('utilisateur.success.suppresion')%>
+        </div>
+    </div>
+    <%}else if(typeof destroy !=='undefined' && destroy=='false'){%>
+    <div class="row">
+        <div class="alert alert-danger">
+            <%= __('utilisateur.erreur.suppresion')%>
+        </div>
+    </div>
+    <%}%>
+    <% if (typeof update !=='undefined' && update =='true'){%>
+    <div class="row">
+        <div class="alert alert-danger">
+            <%= __('utilisateur.success.miseajour')%>
+        </div>
+    </div>
+    <%}else if(typeof update !=='undefined' && update==false){%>
+    <div class="row">
+        <div class="alert alert-info">
+            <%= __('utilisateur.erreur.miseajour')%>
+        </div>
+    </div>
+    <%}%>
+    <% if (typeof success !== 'undefined' && success !== null && success==false && typeof err !== 'undefined'){%>
+    <div class="row" id="error">
+        <div class="alert alert-danger  alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+           <strong><%= message%></strong><br/>
+            <%= err %>
+        </div>
+    </div>
+    <%}%>
+    <div class="row">
+        <% if (utilisateurs === 'undefined' || 0 === utilisateurs.length || typeof err !== 'undefined'){%>
+            <div class="row" id="error">
+                <div class="alert alert-info  alert-dismissible" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <strong><%= __('utilisateur.aucun.inactif')%></strong><br/>
+                </div>
+            </div>
+        <% }else{ %>
+        <div class="col-lg-12">
+            <table class="table table-responsive table-hover table-striped" id="table">
+                <thead>
+                <tr>
+                    <th>Nom</th>
+                    <th>Prénom</th>
+                    <th>Email</th>
+                    <th>Date Inscription</th>
+                    <th>Statut</th>
+                    <th>Téléphone</th>
+                    <th>Denière connexion</th>
+                    <th>Type</th>
+                    <th>Ville</th>
+                    <th>Pays</th>
+                    <th>Role</th>
+                </tr>
+                </thead>
+                <tbody>
+                <% utilisateurs.forEach(function(utilisateur,index){%>
+                    <tr class="context-menu-<%=index%> box menu-one menu-injected">
+                        <td id="idutilisateur-<%=index%>" style="display: none"><%= utilisateur.id%></td>
+                        <td id="nom-<%=index%>"><%= utilisateur.nom%></td>
+                        <td id="prenom-<%=index%>"class=""><%= utilisateur.prenom %></td>
+                        <td id="email-<%=index%>"class=""><%= utilisateur.email %></td>
+                        <td id="dateinscription-<%=index%>" class=""><%= utilisateur.dateInscription %></td>
+                        <td id="statut-<%=index%>"class=""><%= utilisateur.statut %></td>
+                        <td id="telephone-<%=index%>"class=""><%= utilisateur.telephone %></td>
+                        <td id="datederniereconnexion-<%=index%>"class=""><%= utilisateur.dateDerniereConnexion %></td>
+                        <td tclass=""><%= utilisateur.provider %></td>
+                        <td class=""><%= utilisateur.nomVille %></td>
+                        <td class=""><%= utilisateur.nomPays %></td>
+                        <td class=""><%= utilisateur.role %></td>
+                    </tr>
+                <% }) %>
+                </tbody>
+            </table>
+        </div>
+        <%}%>
+    </div>
+
+</div>
+<script>
+    $(function(){
+        <% utilisateurs.forEach(function(utilisateur,index){%>
+            var statut='statut-<%index%>';
+            $.contextMenu({
+                selector: '.context-menu-<%= index %>',
+                build: function($trigger, e) {
+                    // this callback is executed every time the menu is to be shown
+                    // its results are destroyed every time the menu is hidden
+                    // e is the original contextmenu event, containing e.pageX and e.pageY (amongst other data)
+                    return {
+                        callback: function(key, options) {
+                            if(key ==='modifier')
+                            {
+                                window.open('/utilisateur/editUtilisateur?idutilisateur='+document.getElementById("idutilisateur-<%=index%>").innerHTML,'_self');
+                            }
+                            if(key ==='supprimer')
+                            {
+                                $.ajax({
+                                    type: "POST",
+                                    url: '/utilisateur/deleteUtilisateurP',
+                                    data: {idutilisateur:document.getElementById("idutilisateur-<%=index%>").innerHTML},
+                                    success: function(data) {
+                                       if(data.success=='true')
+                                          {
+                                              bootbox.alert({
+                                                  title: "Suppression Utilisateur",
+                                                  message: '<strong><%=__('utilisateur.success.suppression')%></strong>',
+                                                  callback: function(result) {
+                                                      if (result === null) {
+
+                                                      }
+                                                      else {
+                                                          window.location.reload(true);
+                                                      }
+                                                  }
+                                              });
+                                          }else
+                                          {
+                                              bootbox.alert({
+                                                  title: "Suppression Utilisateur",
+                                                  message: '<strong><%=__('utilisateur.erreur.suppression')%><br/></strong>',
+                                                  callback: function(result) {
+                                                      if (result === null) {
+
+                                                      }
+                                                      else {
+                                                          window.location.reload(true);
+                                                      }
+                                                  }
+                                              });
+                                          }
+
+                                    }
+                                });
+
+                            }
+                            if(key==='activer')
+                            {
+                                $.ajax({
+                                    type: "POST",
+                                    url: '/utilisateur/enableUtilisateur',
+                                    data: {idutilisateur:document.getElementById("idutilisateur-<%=index%>").innerHTML},
+                                    success: function(data) {
+                                        if(data.success=='true')
+                                        {
+                                            bootbox.alert({
+                                                title: "Activation Utilisateur",
+                                                message: '<strong><%=__('utilisateur.success.activation')%></strong>',
+                                                callback: function(result) {
+                                                    if (result === null) {
+                                                    }
+                                                    else {
+                                                        window.location.reload(true);
+                                                    }
+                                                }
+                                            });
+                                        }else
+                                        {
+                                            bootbox.alert({
+                                                title: "Activation de l'utilisateur",
+                                                message: '<strong><%=__('utilisateur.erreur.activation')%><br/></strong>',
+                                                callback: function(result) {
+                                                    if (result === null) {
+
+                                                    }
+                                                    else {
+                                                        window.location.reload(true);
+                                                    }
+                                                }
+                                            });
+                                        }
+
+                                    }
+                                });
+                            }
+
+                        },
+                        items: {
+                                "modifier": {name: '<%=__('menucontextuel.editer')%>', icon: "edit"},
+                                "supprimer": {name: "<%=__('menucontextuel.supprimer')%>", icon: "cut"},
+                                "activer": {name: "<%=__('menucontextuel.activer')%>", icon: "enable"},
+                                "sep1": "---------",
+                                "quitter": {name: "<%=__('menucontextuel.quitter')%>", icon: "quit"}
+                        }
+                    };
+                }
+            });
+        <%})%>
+    });
+</script>

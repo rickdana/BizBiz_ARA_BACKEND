@@ -1,0 +1,71 @@
+{
+	"Welcome": "Bienvenue",
+	"A brand new app.": "Administration BizBiz",
+    "BizBiz":"Bienvenue sur BizBiz",
+    "Ajouter-un-article":"Ajouter un article",
+    "Ajouter":"Ajouter",
+    "Modifier":"Modifier",
+    "Modifier-un-article":"Modifier un article",
+    "utilisateur-inactif":"Utilisateurs Inactifs",
+    "utilisateur-actif":"Utilisateurs Actifs",
+
+
+    "Supprimer-un-article":"Supprimer un article",
+    "Gestion des articles":"Gestions des Articles",
+    "Ajouter-un-utilisateur":"Ajouter un Utilisateur",
+    "Modifier-un-utilisateur":"Modifier un Utilisateur",
+    "Supprimer-un-utilisateur":"Supprimer un Utilisateur",
+    "Gestion des utilisateurs":"Gestions des Utilisateurs",
+    "gestiondesutilisateurs.title":"BizBiz | Gestion des Utilisateurs",
+    "gestiondesarticles.title":"BizBiz | Gestion des Articles",
+    "home.title":"BizBiz | Accueil Administration",
+
+    "utilisateur.erreur.inscription":"Un erreur est survenue lors de la création de l'utilisateur",
+    "utilisateur.empty.inscription":"Un erreur inattendue est survenue lors de la crétion de l'utilisateur",
+    "utilisateur.success.inscription":"L'utilisateur a été crée avec succès",
+    "utilisateur.erreur.recuperationalluser":"Un problème est survenu lors de la recuperation de la liste des utilisateurs",
+    "utilisateur.success.suppression":"L'utilisateur a été supprimé",
+    "utilisateur.erreur.suppression":"Une erreur est survenue pendant la suppression",
+    "utilisateur.success.desactivation":"L'Utilisateur a été desactivé avec succès",
+    "utilisateur.erreur.desactivation":"Un problème est survenu lors de la desactivation de l'utilisateur",
+    "utilisateur.success.activation":"L'Utilisateur a été activé avec succès",
+    "utilisateur.erreur.activation":"Un problème est survenu lors de l'activation de l'utilisateur",
+    "utilisateur.aucun":"Aucun n'utilisateur n'existe en base",
+    "utilisateur.aucun.inactif":"Aucun n'utilisateur inactif n'existe en base",
+
+
+
+
+    "utilisateur.success.miseajour":"L'utilisateur a été mise à jour avec succès",
+    "utilisateur.erreur.miseajour":"Une erreur est survenue pendant la mise à jour",
+
+
+
+    "image.erreur.createarticle":"Un problème est survenu lors de l'association des images à votre article",
+    "article.success.creation":"Votre article a été crée avec success",
+    "article.erreur.recuperation":"Nous ne parvenons pas à recuperer la liste des articles",
+    "article.aucun":"Aucun article n'existe en base",
+    "article.aucun.inactif":"Aucun article inactif n'existe en base",
+    "article.success.desactivation":"Article desactivé avec succès",
+    "article.success.activation":"Article activé avec succès",
+
+    "menucontextuel.editer":"Editer",
+    "menucontextuel.supprimer":"Supprimer",
+    "menucontextuel.desactiver":"Desactiver",
+    "menucontextuel.activer":"Activer",
+    "menucontextuel.quitter":"Quitter",
+
+    "article-inactif":"Articles Inactifs",
+    "article-actif":"Articles Actifs",
+
+    "utilisateur.deja.existant":"Un utilisateur est déj inscrit avec cette adresse email",
+    "inscritpion.erreur":"Une erreur est survenur lors de l'inscription",
+    "messageCode":" Votre code de vérification sur BuyandSell est: "
+
+
+
+
+
+
+
+}

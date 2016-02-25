@@ -1,0 +1,106 @@
+<br/>
+<br/>
+<div class="container">
+    <div class="row header">
+        <h1 id="main-title" class=""><%= __('Modifier-un-utilisateur') %></h1>
+    </div>
+    <div class="row">
+        <div class="col-sm-4 col-xs-4 col-md-4 col-lg4">
+            <div class="step">
+                <h3><a  href="/utilisateur" class="btn btn-danger"><%=__('gestiondesutilisateurs.title')%></a></h3>
+            </div>
+        </div>
+    </div>
+    <% if (typeof err !== 'undefined'){%>
+    <div class="row">
+        <div class="alert alert-danger">
+            <strong><%= __('utilisateur.erreur.inscription')%></strong><br/>
+            <%=err%>
+        </div>
+    </div>
+    <%}%>
+    <div class="row">
+
+        <div class="col-md-7 col-lg-7 col-sm-7 col-xs-7 col-md-push-2">
+            <div class="links" id="adduser">
+                <form  method="post" action="/utilisateur/updateUtilisateur" enctype="multipart/form-data" role="form">
+                    <input type="hidden" name="id" value="<%=utilisateur.id%>"/>
+                    <div class="form-group">
+                        <label>Nom:</label>
+                        <input type="text" class="form-control" value="<%=utilisateur.nom%>"  name="nom" placeholder="Entrer le nom" required/>
+                    </div>
+                    <div class="form-group">
+                        <label>Prenom:</label>
+                        <input type="text" class="form-control" value="<%=utilisateur.prenom%>" name="prenom" placeholder="Entrez le prénom" required />
+                    </div>
+                    <div class="form-group">
+                        <label>Email:</label>
+                        <input name="email" type="email"class="form-control"  value="<%=utilisateur.email%>" placeholder="Entrer l'email" required />
+                    </div>
+                    <div class="form-group">
+                        <label>Mot de passe:</label>
+                        <input name="password" type="password" class="form-control"   placeholder="Entrer votre mot de passe"  />
+                    </div>
+                    <div class="form-group">
+                        <label>Télphone:</label>
+                        <input name="telephone" type="tel"class="form-control"  value="<%=utilisateur.telephone%>"  placeholder="Entrer le téléphone" required />
+                    </div>
+                   <!-- <div class="form-group">
+                        <label>Mot de passe:</label>
+                        <input name="password" type="password" class="form-control" value="<%=utilisateur.password%>"  placeholder="Entrer le mot de passe" required/>
+                    </div>-->
+                    <!--<div class="form-group">
+                        <label>Confirmer le Mot de passe:</label>
+                        <input name="confirmpassword" type="password" class="form-control"  placeholder="Ressaisissez le mot de passe" required/>
+                    </div>-->
+                    <div class="form-group">
+                        <label>Ville:</label>
+                        <input type="text" class="form-control" name="nomVille" id="nomville" value="<%=utilisateur.nomVille%>" onfocus="geolocate()" placeholder="Entrer votre ville" required/>
+                    </div>
+                    <div class="form-group">
+                        <label>Pays</label>
+                        <input  class="form-control" type="text" name="nomPays" value="<%=utilisateur.nomPays%>" id="nompays" onfocus="geolocate()" placeholder="Entrer votre pays" required/>
+                    </div>
+
+                    <div class="form-group">
+                        <input style="display: inline-block;" type="file" name="photo" /><img src="<%=path%><%=utilisateur.photo.cheminPhoto%>" width="50px" height="50px">
+                    </div><br/>
+
+                    <input type="submit" class="btn btn-default  btn-lg"  value="<%=__('Modifier')%>"/>
+                </form>
+                <br/>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true&libraries=places&language=fr"></script>
+<script type="text/javascript">
+    var placeSearch,autocomplete;
+    function initialize() {
+        autocomplete = new google.maps.places.Autocomplete(document.getElementById('nompays'), { types: [ 'geocode' ] });
+        google.maps.event.addListener(autocomplete, 'place_changed', function() {
+            fillInAddress();
+        });
+        autocomplete2 = new google.maps.places.Autocomplete(document.getElementById('nomville'), { types: [ 'geocode' ] });
+        google.maps.event.addListener(autocomplete2, 'place_changed', function() {
+            fillInAddress();
+        });
+    }
+    function fillInAddress() {
+        var place = autocomplete.getPlace();
+
+        for (var component in component_form) {
+            document.getElementById(component).value = "";
+            document.getElementById(component).disabled = false;
+        }
+        for (var j = 0; j < place.address_components.length; j++) {
+            var att = place.address_components[j].types[0];
+            if (component_form[att]) {
+                var val = place.address_components[j][component_form[att]];
+                document.getElementById(att).value = val;
+            }
+        }
+    }
+    window.onload=initialize;
+</script>
