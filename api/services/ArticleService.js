@@ -17,24 +17,29 @@ module.exports={
             }
         })
     },
-    getAllArticleActifLimitBy:function(cb)
+    getAllArticleActifByLimit:function(cb,val)
     {
+
         console.log("ArticleService.getAllArticleActif");
-        Article.find({where:{statut:'A'},limit:cb.numberResults, sort:'dateAjout ASC'}).populate('utilisateur').populate('categorie').populate('images').populate('devise').exec(function(err,articles)
+        console.log("limit==>"+cb.limit);
+        console.log("skip==>"+cb.skip);
+        Article.find({where:{statut:'A'},limit:cb.limit, skip:cb.skip, sort:'dateAjout DESC'}).populate('utilisateur').populate('categorie').populate('images').populate('devise').exec(function(err,articles)
         {
 
             if(articles)
             {
-                cb(null, articles);
+                val(null, articles);
             }
             else {
-                cb(err, null);
+                console.log(err);
+                val(err, null);
             }
         })
     },
     getAllArticleInactif:function(cb)
     {
-        Article.find({where:{statut:'I'},sort:'dateAjout ASC'}).populate('utilisateur').populate('categorie').exec(function(err,articles)
+
+        Article.find({where:{statut:'I'},sort:'dateAjout DESC'}).populate('utilisateur').populate('categorie').exec(function(err,articles)
         {
             if(articles)
             {

@@ -421,7 +421,9 @@ module.exports = {
     getAllArticle:function(req,res)
     {
         console.log("GetAllArticle");
-         ArticleService.getAllArticleActifLimitBy({numberResults:req.query.results},function(err,articles) {
+        console.log("limit ==>"+req.query.limit);
+        console.log("skip ==>"+req.query.skip);
+         ArticleService.getAllArticleActifByLimit({limit:req.query.limit,skip:req.query.skip},function(err,articles) {
              console.log("Nombre d'articles Actif: " +JSON.stringify(articles.length));
              if (articles) {
                  articles.forEach(function (article) {
