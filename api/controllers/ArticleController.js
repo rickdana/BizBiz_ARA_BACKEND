@@ -424,7 +424,7 @@ module.exports = {
         console.log("limit ==>"+req.query.limit);
         console.log("skip ==>"+req.query.skip);
          ArticleService.getAllArticleActifByLimit({limit:req.query.limit,skip:req.query.skip},function(err,articles) {
-             console.log("Nombre d'articles Actif: " +JSON.stringify(articles.length));
+             console.log("Nombre d'articles Actif: " +JSON.stringify(articles));
              if (articles) {
                  articles.forEach(function (article) {
                      article.dateAjout = moment(article.dateAjout).format("DD/MM/YYYY");
@@ -467,7 +467,7 @@ module.exports = {
         ArticleService.getArticleById({idarticle:req.query.idarticle},function(err,article){
             if (article !==null && typeof article !=='undefined'&& Object.keys(article).length) {
                     article.dateAjout=moment(article.dateAjout).format("DD/MM/YYYY");
-                    res.send({article: article});
+                    res.send({article: article,success:true});
             }
 
             if (err) {
@@ -485,7 +485,7 @@ module.exports = {
                 articles.forEach(function(article){
                     article.dateAjout=moment(article.dateAjout).format("DD/MM/YYYY");
                 });
-                res.send({articles: articles});
+                res.send({articles: articles,success: true});
             }
 
             if (err) {
@@ -503,10 +503,8 @@ module.exports = {
                 articles.forEach(function(article){
                     article.dateAjout=moment(article.dateAjout).format("DD/MM/YYYY");
                 });
-                res.send({articles: articles});
-            }
-
-            if (err) {
+                res.send({articles: articles,success: true});
+            }else if (err) {
                 res.send({success: false,err:err});
 
             }
@@ -519,7 +517,7 @@ module.exports = {
           articles.forEach(function(article){
             article.dateAjout=moment(article.dateAjout).format("DD/MM/YYYY");
           });
-          res.send({articles: articles});
+          res.send({articles: articles,success: true});
         }
 
         if (err) {
