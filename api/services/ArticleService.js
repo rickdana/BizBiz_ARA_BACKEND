@@ -19,13 +19,11 @@ module.exports={
     },
     getAllArticleActifByLimit:function(cb,val)
     {
-
         console.log("ArticleService.getAllArticleActif");
         console.log("limit==>"+cb.limit);
         console.log("skip==>"+cb.skip);
         Article.find({where:{statut:'A'},limit:cb.limit, skip:cb.skip, sort:'dateAjout DESC'}).populate('utilisateur').populate('categorie').populate('images').populate('devise').exec(function(err,articles)
         {
-
             if(articles)
             {
                 val(null, articles);
