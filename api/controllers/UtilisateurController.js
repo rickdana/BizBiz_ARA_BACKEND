@@ -221,7 +221,7 @@ module.exports = {
                         Utilisateur.find({id:req.body.id}).populate('photo').exec(function(err,user)
                         {
                             console.log("utilisateur "+JSON.stringify(user));
-                            user[0].dateDeNaissance=moment(user[0].dateDeNaissance).format("DD MMMM YYYY");
+                            user[0].dateDeNaissance=moment(new Date(user[0].dateDeNaissance),"DD MMMM YYYY");
                             if(user[0].confirmEmail=="")
                             {
                                 user[0].emailVerifie=true;
@@ -508,7 +508,7 @@ module.exports = {
                   {
                     console.log("erreur update user"+err);
                   }else{
-                    utilisateur1.dateDeNaissance=moment(utilisateur1.dateDeNaissance).format("DD MMMM YYYY");
+                    utilisateur1.dateDeNaissance=moment(new Date(utilisateur1.dateDeNaissance),"DD MMMM YYYY");
                     res.json({
                       success: true,
                       data: utilisateur1
@@ -562,7 +562,7 @@ module.exports = {
                     {
                         Utilisateur.findOne({id:utilisateur1[0].id}).populate('photo').exec(function(err,u2){
                             console.log("valeur retournée à l'appli==>"+JSON.stringify(u2));
-                            u2.dateDeNaissance=moment(u2.dateDeNaissance).format("DD MMMM YYYY");
+                            u2.dateDeNaissance=moment(new Date(u2.dateDeNaissance),"DD MMMM YYYY");
                             if(u2){
                                 res.json({
                                     success: true,
@@ -612,8 +612,8 @@ module.exports = {
                                     {
                                         Utilisateur.findOne({id:utilisateur1[0].id}).populate('photo').exec(function(err,u2){
                                             console.log("valeur retournée à l'appli==>"+JSON.stringify(u2));
-                                            u2.dateDeNaissance=moment(u2.dateDeNaissance).format("DD MMMM YYYY");
-                                            u2.dateDeNaissance=moment(u2.dateDeNaissance).format("DD MMMM YYYY");
+                                            u2.dateDeNaissance=moment(new Date(u2.dateDeNaissance),"DD MMMM YYYY");
+                                            u2.dateDeNaissance=moment(new Date(u2.dateDeNaissance),"DD MMMM YYYY");
                                             if(u2){
                                                 res.json({
                                                     success: true,
@@ -647,7 +647,7 @@ module.exports = {
                         data: "Error occured: " + err
                     });
                 } else {
-                    utilisateur.dateDeNaissance=moment(utilisateur.dateDeNaissance).format("DD MMMM YYYY");
+                    utilisateur.dateDeNaissance=moment(new Date(utilisateur.dateDeNaissance),"DD MMMM YYYY");
                     res.json({
                         success: true,
                         data: utilisateur
@@ -671,7 +671,7 @@ module.exports = {
             }
             if(utilisateur){
                 console.log("isTokenExpired : Utilisateur connecté"+utilisateur);
-                utilisateur.dateDeNaissance=moment(utilisateur.dateDeNaissance).format("DD MMMM YYYY");
+                utilisateur.dateDeNaissance=moment(new Date(utilisateur.dateDeNaissance),"DD MMMM YYYY");
                 res.json({
                     success: false,
                     utilisateur:utilisateur
@@ -759,7 +759,7 @@ module.exports = {
                                             if(u1){
                                                 Utilisateur.findOne({id:u1[0].id}).populate('photo').exec(function(err,u2){
                                                     console.log("valeur retournée à l'appli==>"+JSON.stringify(u2));
-                                                    u2.dateDeNaissance=moment(u2.dateDeNaissance).format("DD MMMM YYYY");
+                                                    u2.dateDeNaissance=moment(new Date(u2.dateDeNaissance),"DD MMMM YYYY");
 
                                                     if(u2){
                                                         res.json({
@@ -801,7 +801,7 @@ module.exports = {
                                             if(u1)
                                             {
                                                 Utilisateur.findOne({id:u1.id}).populate('photo').exec(function(err,u2){
-                                                    u2.dateDeNaissance=moment(u2.dateDeNaissance).format("DD MMMM YYYY");
+                                                    u2.dateDeNaissance=moment(new Date(u2.dateDeNaissance),"DD MMMM YYYY");
                                                     if(u2){
                                                         res.json({
                                                             success: true,
@@ -921,7 +921,7 @@ module.exports = {
                                                             console.log("user after update"+JSON.stringify(u1));
                                                             Utilisateur.findOne({id:u1[0].id}).populate('photo').exec(function(err,u2){
                                                                 console.log("valeur retournée à l'appli==>"+JSON.stringify(u2));
-                                                                u2.dateDeNaissance=moment(u2.dateDeNaissance).format("DD MMMM YYYY");
+                                                                u2.dateDeNaissance=moment(new Date(u2.dateDeNaissance),"DD MMMM YYYY");
                                                                 if(u2){
                                                                     res.json({
                                                                         success: true,
@@ -961,7 +961,7 @@ module.exports = {
                                                         {
                                                             Utilisateur.findOne({id:u1.id}).populate('photo').exec(function(err,u2){
                                                                 console.log("utilisateur crée"+JSON.stringify(u2));
-                                                                u2.dateDeNaissance=moment(u2.dateDeNaissance).format("DD MMMM YYYY");
+                                                                u2.dateDeNaissance=moment(new Date(u2.dateDeNaissance),"DD MMMM YYYY");
                                                                 if(u2){
                                                                     res.json({
                                                                         success: true,

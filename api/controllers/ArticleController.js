@@ -448,7 +448,7 @@ module.exports = {
             if (articles !==null && typeof articles !=='undefined'&& Object.keys(articles).length) {
                 articles.forEach(function(article){
                     article.dateAjout=moment(article.dateAjout).format("DD/MM/YYYY");
-                })
+                });
                 res.send({articles: articles,hasArticle:true});
             }
             else
