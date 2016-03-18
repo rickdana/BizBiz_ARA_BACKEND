@@ -34,6 +34,20 @@ module.exports={
             }
         })
     },
+    getAllArticles:function(cb)
+    {
+
+        Article.find({where:{statut:'A'},sort:'dateAjout DESC'}).populate('utilisateur').populate('categorie').populate('images').populate('devise').exec(function(err,articles)
+        {
+            if(articles)
+            {
+                cb(null, articles);
+            }
+            else {
+                cb(err, null);
+            }
+        })
+    },
     getAllArticleInactif:function(cb)
     {
 

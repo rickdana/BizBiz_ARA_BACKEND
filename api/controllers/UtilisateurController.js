@@ -690,29 +690,27 @@ module.exports = {
 
     oauth:function(req,res)
     {
+        console.log(JSON.stringify(req.body));
         var https = require('https');
         var user={};
         if(req.body.provider==='Facebook')
         {
             console.log("token "+req.body.token);
-            var facebookClientId="783857571734761";
-            var keyFacebook="2784032a85b15a62cc2220a6cfa327b0";
             var optionsGet = {
                 host : 'graph.facebook.com',
                 port : 443,
-                path : '/v2.4/me?access_token='+req.body.token+'&fields=address,birthday,email,location,gender,first_name,last_name,picture{url}'
+                path : '/v2.5/me?access_token='+req.body.token+'&fields=birthday,email,location,gender,first_name,last_name,picture{url}'
             };
             var userData=req.body;
             var reqGet = https.get(optionsGet, function(result) {
                 console.log("statusCode: ", result.statusCode);
                 result.on('data', function (d) {
-                    console.log("parse"+JSON.parse(d));
+                    console.log("parse"+JSON.stringify(JSON.parse(d)));
                     var dataInfoUser=JSON.parse(d);
-                    console.log("stringify"+JSON.stringify(JSON.parse(d)));
                     user.nom=dataInfoUser.first_name;
                     user.prenom=dataInfoUser.last_name;
                     user.email=dataInfoUser.email;
-                    user.dateDeNaissance=moment(new Date(dataInfoUser.birthday));
+                    user.dateDeNaissance=moment(new Date(dataInfoUser.birthday),"DD/MM/YYYY");
                     var location=dataInfoUser.location.name.split(", ");
                     user.os=userData.os;
                     user.device=userData.device;
@@ -750,7 +748,9 @@ module.exports = {
                                 Utilisateur.findOne({email:user.email,
                                     or : [
                                         { provider: 'Normal' },
-                                        { provider: req.body.provider }
+                                        { provider: req.body.provider },
+                                        {provider: 'Google'}
+
                                     ]}).populate('photo').exec(function(err,u){
                                     if(u)
                                     {
@@ -846,165 +846,122 @@ module.exports = {
             });
         }
         if(req.body.provider==='Google'){
-            var keyGoogle="AIzaSyAkU6bg0esJBmaMui6d2sp1NrzZUOjsSLY";
-            var appClientId="626198170177-84dc2fc7e6i7j30hth755oui7448femj.apps.googleusercontent.com";
-            var optionsGet = {
-                host : 'www.googleapis.com',
-                port : 443,
-                path : '/oauth2/v3/tokeninfo?alt=json&access_token='+req.body.token
-            };
+
             var userData=req.body;
-            var reqGet = https.get(optionsGet, function(result) {
-                console.log("statusCode: ", result.statusCode);
-                result.on('data', function(d) {
-                    console.log("todoooooo"+JSON.stringify(JSON.parse(d)));
-                    var dataToken=JSON.parse(d);
-                    console.log(appClientId);
-                    if(dataToken.aud==appClientId)
+
+            user.email=userData.email;
+            user.provider='Google';
+            user.os=userData.os;
+            user.device=userData.device;
+            user.telephone=userData.telephone;
+            user.token=userData.token;
+            user.password="";
+            user.nom=userData.nom;
+            user.prenom=userData.prenom;
+            user.sexe=userData.sexe;
+
+            imageService.download_file(userData.imgUrl,pathPhoto,'Google',function(err, cheminPhoto) {
+                if(cheminPhoto)
+                {
+                    console.log("cheminPhoto "+cheminPhoto);
+                    Photo.findOrCreate({cheminPhoto:cheminPhoto},{cheminPhoto:cheminPhoto}).exec(function(err,photo)
                     {
-                        console.log("tadaaaaaaaaa");
-                        //On recupère les informations de l'utilisateur
-                        var optionsGetInfoUser = {
-                            host : 'www.googleapis.com',
-                            port : 443,
-                            path : '/plus/v1/people/me?access_token='+req.body.token+"&key="+keyGoogle
-                        };
-                        var reqGetInfoUser = https.get(optionsGetInfoUser, function(resultInfoUser) {
-                            resultInfoUser.on('data', function(data) {
-                                console.log('google User'+JSON.stringify(JSON.parse(data)));
-                                var dataInfoUser=JSON.parse(data);
-                                user.nom=dataInfoUser.name.familyName;
-                                user.prenom=dataInfoUser.name.givenName;
-                                if(dataInfoUser.gender==='male')
-                                {
-                                    user.sexe=1;
-                                }else
-                                {
-                                    user.sexe=2;
-                                }
-                                user.email=dataInfoUser.emails[0].value;
-                                user.provider='Google';
-                                user.os=userData.os;
-                                user.device=userData.device;
-                                user.telephone=userData.telephone;
-                                user.token=req.body.token;
-                                user.password="";
-
-                                imageService.download_file(dataInfoUser.image.url,pathPhoto,'Google',function(err, cheminPhoto) {
-                                    if(cheminPhoto)
+                        console.log(JSON.stringify(photo));
+                        if(photo)
+                        {
+                            user.photo=photo.idPhoto;
+                        }
+                        if(err)
+                        {
+                            console.log(err);
+                            user.photo=1;
+                        }
+                        console.log("Info User"+JSON.stringify(user));
+                        Utilisateur.findOne({email:user.email,
+                            or : [
+                                { provider: 'Normal' },
+                                { provider: req.body.provider },
+                                {provider: 'Facebook'}
+                            ]}).exec(function(err,u){
+                            if(u)
+                            {
+                                console.log("Mise à jour de l'utilisateur ");
+                                console.log("utilisateur trouvé==>"+JSON.stringify(u));
+                                Utilisateur.update({email:u.email},user).exec(function(err,u1){
+                                    if(u1){
+                                        console.log("user after update"+JSON.stringify(u1));
+                                        Utilisateur.findOne({id:u1[0].id}).populate('photo').exec(function(err,u2){
+                                            console.log("valeur retournée à l'appli==>"+JSON.stringify(u2));
+                                            u2.dateDeNaissance=moment(new Date(u2.dateDeNaissance),"DD MMMM YYYY");
+                                            if(u2){
+                                                res.json({
+                                                    success: true,
+                                                    data: u2
+                                                });
+                                            }
+                                        })
+                                    }
+                                    if(err)
                                     {
-                                        console.log("cheminPhoto "+cheminPhoto);
-                                        Photo.findOrCreate({cheminPhoto:cheminPhoto},{cheminPhoto:cheminPhoto}).exec(function(err,photo)
-                                        {
-                                            console.log(JSON.stringify(photo));
-                                            if(photo)
-                                            {
-                                                user.photo=photo.idPhoto;
-                                            }
-                                            if(err)
-                                            {
-                                                console.log(err);
-                                                user.photo=1;
-                                            }
-                                            console.log("Info User"+JSON.stringify(user));
-                                            Utilisateur.findOne({email:user.email,
-                                                or : [
-                                                    { provider: 'Normal' },
-                                                    { provider: req.body.provider }
-                                                ]}).exec(function(err,u){
-                                                if(u)
-                                                {
-                                                    console.log("Mise à jour de l'utilisateur ");
-                                                    console.log("utilisateur trouvé==>"+JSON.stringify(u));
-                                                    Utilisateur.update({email:u.email},user).exec(function(err,u1){
-                                                        if(u1){
-                                                            console.log("user after update"+JSON.stringify(u1));
-                                                            Utilisateur.findOne({id:u1[0].id}).populate('photo').exec(function(err,u2){
-                                                                console.log("valeur retournée à l'appli==>"+JSON.stringify(u2));
-                                                                u2.dateDeNaissance=moment(new Date(u2.dateDeNaissance),"DD MMMM YYYY");
-                                                                if(u2){
-                                                                    res.json({
-                                                                        success: true,
-                                                                        data: u2
-                                                                    });
-                                                                }
-                                                            })
-                                                        }
-                                                        if(err)
-                                                        {
-                                                            console.log(err);
-                                                            res.json({
-                                                                success: false,
-                                                                message: req.__( "inscritpion.erreur"),
-                                                                err:err
-                                                            });
-                                                        }
-                                                    })
-                                                }else
-                                                {
-                                                    console.log("Création de l'user ");
-                                                    Utilisateur.create(user).exec(function(err,u1){
-                                                        if(err)
-                                                        {
-                                                            if(err)
-                                                            {
-                                                                console.log(err);
-                                                                res.json({
-                                                                    success: false,
-                                                                    message: req.__( "inscritpion.erreur"),
-                                                                    err:err
-                                                                });
-                                                            }
-
-                                                        }
-                                                        if(u1)
-                                                        {
-                                                            Utilisateur.findOne({id:u1.id}).populate('photo').exec(function(err,u2){
-                                                                console.log("utilisateur crée"+JSON.stringify(u2));
-                                                                u2.dateDeNaissance=moment(new Date(u2.dateDeNaissance),"DD MMMM YYYY");
-                                                                if(u2){
-                                                                    res.json({
-                                                                        success: true,
-                                                                        data: u2
-                                                                    });
-                                                                }
-
-                                                            })
-                                                        }
-                                                    })
-                                                }
-                                                if(err)
-                                                {
-                                                    console.log(err);
-                                                    res.json({
-                                                        success: false,
-                                                        message: req.__( "inscritpion.erreur"),
-                                                        err:err
-                                                    });
-                                                }
-                                            })
+                                        console.log(err);
+                                        res.json({
+                                            success: false,
+                                            message: req.__( "inscritpion.erreur"),
+                                            err:err
                                         });
                                     }
-                                    if (err)
+                                })
+                            }else
+                            {
+                                console.log("Création de l'user ");
+                                Utilisateur.create(user).exec(function(err,u1){
+                                    if(err)
                                     {
-                                        console.log("Erreur recupération photo ==> "+err);
-                                        console.log("Tout de meme on poursuit l'inscription en lui allouant la photo de profil par defaut");
-                                        user.photo=1;
+                                        if(err)
+                                        {
+                                            console.log(err);
+                                            res.json({
+                                                success: false,
+                                                message: req.__( "inscritpion.erreur"),
+                                                err:err
+                                            });
+                                        }
+
+                                    }
+                                    if(u1)
+                                    {
+                                        Utilisateur.findOne({id:u1.id}).populate('photo').exec(function(err,u2){
+                                            console.log("utilisateur crée"+JSON.stringify(u2));
+                                            u2.dateDeNaissance=moment(new Date(u2.dateDeNaissance),"DD MMMM YYYY");
+                                            if(u2){
+                                                res.json({
+                                                    success: true,
+                                                    data: u2
+                                                });
+                                            }
+
+                                        })
                                     }
                                 })
-                            }).on('error',function(e){
-                              console.log("error==>"+e);
-                              res.json({
-                                success: false,
-                                message: req.__( "inscritpion.erreur"),
-                                err:e
-                              });
-                            });
-
-                        });
-                    }
-                });
-
+                            }
+                            if(err)
+                            {
+                                console.log(err);
+                                res.json({
+                                    success: false,
+                                    message: req.__( "inscritpion.erreur"),
+                                    err:err
+                                });
+                            }
+                        })
+                    });
+                }
+                if (err)
+                {
+                    console.log("Erreur recupération photo ==> "+err);
+                    console.log("Tout de meme on poursuit l'inscription en lui allouant la photo de profil par defaut");
+                    user.photo=1;
+                }
             });
 
         }

@@ -418,9 +418,9 @@ module.exports = {
 
         })
     },
-    getAllArticle:function(req,res)
+    getArticlesByLimit:function(req,res)
     {
-        console.log("GetAllArticle");
+        console.log("getArticlesByLimit");
         console.log("limit ==>"+req.query.limit);
         console.log("skip ==>"+req.query.skip);
          ArticleService.getAllArticleActifByLimit({limit:req.query.limit,skip:req.query.skip},function(err,articles) {
@@ -440,6 +440,28 @@ module.exports = {
                  //res.send({success: false,err:err});
              }
          })
+    },
+    getAllArticles:function(req,res)
+    {
+        console.log("getAllArticles");
+
+        ArticleService.getAllArticles(function(err,articles) {
+            console.log("Nombre d'articles Actif: " +JSON.stringify(articles));
+            if (articles) {
+                articles.forEach(function (article) {
+                    article.dateAjout = moment(article.dateAjout).format("DD/MM/YYYY");
+                });
+                res.send({articles: articles,hasArticle:true,nombreArticles:articles.length});
+            }
+            else
+            {
+                res.send({articles: articles,hasArticle:false});
+            }
+            if (err) {
+                console.log(err);
+                //res.send({success: false,err:err});
+            }
+        })
     },
     getArticleByCategorie:function(req,res)
     {
