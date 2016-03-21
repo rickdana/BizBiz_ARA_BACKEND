@@ -52,23 +52,23 @@ module.exports = {
     /*Ajout d'un article comme favoris par un utilisateur*/
     ajouterFavoris:function(req,res)
     {
-        Favoris.findOne({idArticle:req.query.idarticle}).exec(function(err,favoris){
-            console.log("article "+req.query.idarticle);
+        Favoris.findOne({idArticle:req.body.idarticle}).exec(function(err,favoris){
+            console.log("article "+req.body.idarticle);
             if(favoris)
             {
                 res.send({message:'Cette article est déjà comme favoris',success:false,favoris:favoris})
             }
             else
             {
-                Utilisateur.findOne({id:req.query.idutilisateur}).exec(function(err,utilisateur)
+                Utilisateur.findOne({id:req.body.idutilisateur}).exec(function(err,utilisateur)
                 {
                     if(utilisateur)
                     {
-                        Article.findOne({idArticle:req.query.idarticle}).exec(function(err,article){
+                        Article.findOne({idArticle:req.body.idarticle}).exec(function(err,article){
 
                             if(article)
                             {
-                                Favoris.create(req.query).exec(function(err,favoris)
+                                Favoris.create({utilisateur:req.body.idutilisateur,article:req.body.idarticle}).exec(function(err,favoris)
                                 {
                                     if(favoris)
                                     {
