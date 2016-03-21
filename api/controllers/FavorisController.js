@@ -52,11 +52,14 @@ module.exports = {
     /*Ajout d'un article comme favoris par un utilisateur*/
     ajouterFavoris:function(req,res)
     {
-        Favoris.findOne({idArticle:req.body.idarticle}).exec(function(err,favoris){
-            console.log("article "+req.body.idarticle);
-            if(favoris)
+        Favoris.findOne({utilisateur:req.body.idutilisateur,article:req.body.idarticle}).exec(function(err,favoris){
+            if(favoris!=null)
             {
-                res.send({message:'Cette article est déjà comme favoris',success:false,favoris:favoris})
+                Favoris.destroy({idFavoris:favoris.idFavoris}).exec(function(err,favoris){
+                    Favoris.find({utilisateur:req.body.idutilisateur}).exec(function(err,favoris){
+                        res.send({message:'Favoris supprimé',success:true,favoris:favoris,suppression:true})
+                    });
+                });
             }
             else
             {
@@ -72,7 +75,7 @@ module.exports = {
                                 {
                                     if(favoris)
                                     {
-                                        res.send({message:'Article ajouté en favoris avec succces',success:true,favoris:favoris});
+                                        res.send({message:'Annonce sauvegardée',success:true,favoris:favoris,suppression:false});
                                     }
 
                                     if(err)
