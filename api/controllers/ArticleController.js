@@ -218,7 +218,7 @@ module.exports = {
                         type = file.type;
                         console.log("le chemin du fichier importé "+chemin);
 
-                        Image.create({cheminImage:chemin, typeImage:type,article:req.body.idArticle}).exec(function(err,photo){
+                        Image.create({cheminImage:chemin, typeImage:type,article:req.body.idArticle}).exec(function(err,image){
                             console.log("creation de l'image pour l'article "+req.body.idArticle);
                             if (err)
                             {
@@ -226,7 +226,7 @@ module.exports = {
                                 console.error("Article.uploadImage : Une erreur est survenue lors de l'ajout de la photo ==>"+err);
                             }
 
-                            if(photo)
+                            if(image)
                             {
                                 console.log("");
                                res.send({success:true});
@@ -423,23 +423,28 @@ module.exports = {
         console.log("getArticlesByLimit");
         console.log("limit ==>"+req.query.limit);
         console.log("skip ==>"+req.query.skip);
-         ArticleService.getAllArticleActifByLimit({limit:req.query.limit,skip:req.query.skip},function(err,articles) {
-             console.log("Nombre d'articles Actif: " +JSON.stringify(articles));
-             if (articles) {
-                 articles.forEach(function (article) {
-                     article.dateAjout = moment(article.dateAjout).format("DD/MM/YYYY");
-                 });
-                 res.send({articles: articles,hasArticle:true,nombreArticles:articles.length});
-             }
-             else
-             {
-                 res.send({articles: articles,hasArticle:false});
-             }
-             if (err) {
-                 console.log(err);
-                 //res.send({success: false,err:err});
-             }
-         })
+        var nombreArticle=0;
+        Article.count({where:{statut:'A'}}).exec(function countCB(error, found) {
+            nombreArticle=found;
+            ArticleService.getAllArticleActifByLimit({limit:req.query.limit,skip:req.query.skip},function(err,articles) {
+                console.log("Nombre d'articles Actif: " +JSON.stringify(articles));
+                if (articles) {
+                    articles.forEach(function (article) {
+                        article.dateAjout = moment(article.dateAjout).format("DD/MM/YYYY");
+                    });
+                    res.send({articles: articles,hasArticle:true,nombreArticles:articles.length,nombreArticleTotal:nombreArticle});
+                }
+                else
+                {
+                    res.send({articles: articles,hasArticle:false,nombreArticleTotal:nombreArticle});
+                }
+                if (err) {
+                    console.log(err);
+                    //res.send({success: false,err:err});
+                }
+            })
+        });
+
     },
     getAllArticles:function(req,res)
     {
