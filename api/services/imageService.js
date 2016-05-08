@@ -16,10 +16,6 @@ module.exports = {
              path: url.parse(file_url).pathname
          };
 
-         console.log("file url ==>"+file_url);
-         console.log("url image"+url.parse(file_url).pathname);
-         console.log("host image"+url.parse(file_url).host);
-
          var file_name="";
          if(provider=='Google')
          {
@@ -30,20 +26,16 @@ module.exports = {
          {
            file_name=url.parse(file_url).pathname.split('/').pop();
          }
-       console.log(" file_name "+provider+" "+file_name);
-
 
        Photo.findOne({cheminPhoto:file_name}).exec(function(err,photo){
              if(photo)
              {
-                 console.log("photoOOOOO "+JSON.stringify(photo));
                  cb(null, photo.cheminPhoto);
              }else
              {
                  if(provider=='Google')
                  {
                      var file = fs.createWriteStream(dest + file_name);
-                     console.log("pas photooooo");
                      https.get(options, function (res) {
                          res.on('data', function (data) {
                              file.write(data);
