@@ -222,6 +222,7 @@ module.exports = {
                             console.log("creation de l'image pour l'article "+req.body.idArticle);
                             if (err)
                             {
+
                                 res.send({success:false});
                             }
 
