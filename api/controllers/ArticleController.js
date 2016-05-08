@@ -223,12 +223,10 @@ module.exports = {
                             if (err)
                             {
                                 res.send({success:false});
-                                console.error("Article.uploadImage : Une erreur est survenue lors de l'ajout de la photo ==>"+err);
                             }
 
                             if(image)
                             {
-                                console.log("");
                                res.send({success:true});
                             }
                         })
