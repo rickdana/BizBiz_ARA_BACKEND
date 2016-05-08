@@ -703,9 +703,7 @@ module.exports = {
             };
             var userData=req.body;
             var reqGet = https.get(optionsGet, function(result) {
-                console.log("statusCode: ", result.statusCode);
                 result.on('data', function (d) {
-                    console.log("parse"+JSON.stringify(JSON.parse(d)));
                     var dataInfoUser=JSON.parse(d);
                     user.nom=dataInfoUser.first_name;
                     user.prenom=dataInfoUser.last_name;
@@ -859,11 +857,9 @@ module.exports = {
             user.nom=userData.nom;
             user.prenom=userData.prenom;
             user.sexe=userData.sexe;
-
             imageService.download_file(userData.imgUrl,pathPhoto,'Google',function(err, cheminPhoto) {
                 if(cheminPhoto)
                 {
-                    console.log("cheminPhoto "+cheminPhoto);
                     Photo.findOrCreate({cheminPhoto:cheminPhoto},{cheminPhoto:cheminPhoto}).exec(function(err,photo)
                     {
                         console.log(JSON.stringify(photo));
