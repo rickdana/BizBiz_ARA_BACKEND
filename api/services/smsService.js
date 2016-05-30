@@ -17,9 +17,9 @@ module.exports = {
         var s = new nexmo(api_key, api_secret,true);
 
         var phone=telephone.replace("+", "");
-        var message="Message de BuyAndSell : Votre code de vérification "+code;
+        var message="Message d'OccazStreet : Votre code de vérification "+code;
         console.log("Message "+message);
-        s.send("Buyamsellam",phone,message,function(err,success){
+        s.send("OccazStreet",phone,message,function(err,success){
             if (err) {
                 console.log(err);
             } else {
