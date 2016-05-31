@@ -1,5 +1,5 @@
 module.exports.myconf = {
     siteUrl: 'http://www.occazstreet.com',
-    serverUrl:'http://vps126404.ovh.net:',
+    serverUrl:'http://37.59.101.217:',
     serverPort:'1337'
 };
