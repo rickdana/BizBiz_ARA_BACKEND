@@ -3,14 +3,14 @@ var nodemailer = require('nodemailer');
 // create reusable transporter object using SMTP transport
 var options={
     port:465,
-    secure:true,
+    secureConnection: true,
     host:'ssl0.ovh.net',
     auth: {
         user: 'kukkea@kukkea.com',
         pass: 'kukkea1#'
     }
 };
-var transport = nodemailer.createTransport(options);
+var transport = nodemailer.createTransport("SMTP",options);
 var path =require('path');
 var templatesDir   = path.join(__dirname, '../../views/templates/emails')
     , emailTemplates = require('email-templates')
@@ -37,7 +37,7 @@ module.exports = {
                     baseUrl:sails.getBaseurl()
                 };
                 console.log(sails.getBaseurl());
-                template('confirm-email',{confirmEmailUrl:sails.getBaseurl()+'/v/verifEmail?verif='+utilisateur.confirmEmail, infoContact:'info@occazstreet.com',baseUrl:sails.getBaseurl(),nom:utilisateur.prenom +' '+utilisateur.nom
+                template('confirm-email',{confirmEmailUrl:sails.getBaseurl()+'/v/verifEmail?verif='+utilisateur.confirmEmail, infoContact:'info@occazstreet.com',baseUrl:sails.getBaseurl(),urlSite:'www.occazstreet.com', nom:utilisateur.prenom +' '+utilisateur.nom
                 }, function(err, html) {
                     if (err) {
                         console.log(err);

@@ -256,7 +256,8 @@ module.exports = {
                 Utilisateur.update({id:utilisateur.id},utilisateur).exec(function(err,user){
                     if(user)
                     {
-                        res.view('verifEmail',{baseUrl:sails.getBaseurl(),infoContact:"info@buyandsellam.com"},{layout: null});
+                        res.redirect(sails.config.myconf.siteUrl+"/success.html");
+                       // res.view('verifEmail',{baseUrl:sails.getBaseurl(),infoContact:"info@occastreet.com",siteUrl:"www.occazstreet.com"});
                     }
                     if(err)
                     {
