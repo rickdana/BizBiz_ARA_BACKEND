@@ -213,7 +213,6 @@ module.exports = {
                         }else
                         {
                             emailHasChange=true;
-
                             //Envoi de l'email à la nouvelle adresse renseignée par l'utilisateur
                             emailService.ConfirmEmail(utilisateur);
                         }
