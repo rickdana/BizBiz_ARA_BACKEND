@@ -14,7 +14,7 @@ var trim =require('trim');
 var pathPhoto='./assets/photoUtilisateur/';
 var pathFromView='/photoUtilisateur/';
 var pathPhotoUpload='../../assets/photoUtilisateur';
-var token_secret ='BayamSellam';
+var token_secret ='OccazStreet';
 
 
 module.exports = {
@@ -206,9 +206,21 @@ module.exports = {
                     utilisateur.newEmail=req.body.email;
                     req.body.email=utilisateur.email;
                     utilisateur.confirmEmail=req.body.confirmEmail;
-                    emailHasChange=true;
-                    //Envoi de l'email à la nouvelle adresse renseignée par l'utilisateur
-                    emailService.ConfirmEmail(utilisateur);
+                    Utilisateur.findOne({email:req.body.email}).exec(function(err,utilisateur){
+                        if(utilisateur)
+                        {
+                            emailHasChange=false;
+                        }else
+                        {
+                            emailHasChange=true;
+
+                            //Envoi de l'email à la nouvelle adresse renseignée par l'utilisateur
+                            emailService.ConfirmEmail(utilisateur);
+                        }
+
+                    });
+
+
 
                 }else
                 {
@@ -261,6 +273,7 @@ module.exports = {
                     }
                     if(err)
                     {
+                        console.log("error update "+JSON.stringify(err));
                         res.notFound()
                     }
                 })
