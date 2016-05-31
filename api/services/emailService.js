@@ -32,12 +32,12 @@ module.exports = {
                 var locals = {
                     email: utilisateur.newEmail,
                     nom:utilisateur.prenom +' '+utilisateur.nom,
-                    confirmEmailUrl:sails.getBaseurl()+'/v/verifEmail?verif='+utilisateur.confirmEmail,
+                    confirmEmailUrl:sails.myconf.serverUrl+sails.myconf.serverPort+'/v/verifEmail?verif='+utilisateur.confirmEmail,
                     infoContact:'info@occazstreet.com',
                     baseUrl:sails.getBaseurl()
                 };
                 console.log(sails.getBaseurl());
-                template('confirm-email',{confirmEmailUrl:sails.getBaseurl()+'/v/verifEmail?verif='+utilisateur.confirmEmail, infoContact:'info@occazstreet.com',baseUrl:sails.getBaseurl(),urlSite:'www.occazstreet.com', nom:utilisateur.prenom +' '+utilisateur.nom
+                template('confirm-email',{confirmEmailUrl:sails.myconf.serverUrl+sails.myconf.serverPort+'/v/verifEmail?verif='+utilisateur.confirmEmail, infoContact:'info@occazstreet.com',baseUrl:sails.getBaseurl(),urlSite:'www.occazstreet.com', nom:utilisateur.prenom +' '+utilisateur.nom
                 }, function(err, html) {
                     if (err) {
                         console.log(err);
