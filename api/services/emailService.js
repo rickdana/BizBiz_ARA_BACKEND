@@ -33,20 +33,20 @@ module.exports = {
                     email: utilisateur.newEmail,
                     nom:utilisateur.prenom +' '+utilisateur.nom,
                     confirmEmailUrl:sails.getBaseurl()+'/v/verifEmail?verif='+utilisateur.confirmEmail,
-                    infoContact:'info@buyandsell.com',
+                    infoContact:'info@occazstreet.com',
                     baseUrl:sails.getBaseurl()
                 };
                 console.log(sails.getBaseurl());
-                template('confirm-email',{confirmEmailUrl:sails.getBaseurl()+'/v/verifEmail?verif='+utilisateur.confirmEmail, infoContact:'info@buyandsell.com',baseUrl:sails.getBaseurl(),nom:utilisateur.prenom +' '+utilisateur.nom
+                template('confirm-email',{confirmEmailUrl:sails.getBaseurl()+'/v/verifEmail?verif='+utilisateur.confirmEmail, infoContact:'info@occazstreet.com',baseUrl:sails.getBaseurl(),nom:utilisateur.prenom +' '+utilisateur.nom
                 }, function(err, html) {
                     if (err) {
                         console.log(err);
                     } else {
 
                         transport.sendMail({
-                            from: 'info@buyandsell.com',
+                            from: 'info@occazstreet.com',
                             to: locals.email,
-                            subject: 'Buyandsell: Vérification e-mail',
+                            subject: 'OccazStreet: Vérification e-mail',
                             html: html,
                             generateTextFromHTML: true
                             //text: text
