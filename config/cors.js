@@ -63,9 +63,8 @@ module.exports.cors = {
   * response to preflight requests (see article linked above for more info)  *
   *                                                                          *
   ***************************************************************************/
-
-   //methods: 'GET, POST, PUT, DELETE, OPTIONS, HEAD',
-    methods: 'GET, POST',
+    //methods: 'GET, POST, PUT, DELETE, OPTIONS, HEAD',
+     methods: 'GET, POST, OPTIONS',
 
 
     /***************************************************************************
