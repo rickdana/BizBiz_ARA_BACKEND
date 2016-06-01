@@ -201,55 +201,83 @@ module.exports = {
                 //L'utilisateur existe on check si l'email de l'utilisateur a changé
                 if(utilisateur.email !=req.body.email)
                 {
-                    //L'email ayant changé on encode la nouvelle email en base 64 et l'on set confirEmail par la valeur obtenu
-                    req.body.confirmEmail=new Buffer(req.body.email).toString("base64");
-                    utilisateur.newEmail=req.body.email;
-                    req.body.email=utilisateur.email;
-                    utilisateur.confirmEmail=req.body.confirmEmail;
-                    Utilisateur.findOne({email:req.body.email}).exec(function(err,utilisateur){
-                        if(utilisateur)
+
+                    Utilisateur.findOne({email:req.body.email}).exec(function(err,utilisateur2){
+                        if(utilisateur2)
                         {
                             emailHasChange=false;
+                            req.body.confirmEmail="";
+                            res.send({success: false,utilisateur:utilisateur,emailAlreadyExist:true});
+
                         }else
                         {
+                            //L'email ayant changé on encode la nouvelle email en base 64 et l'on set confirEmail par la valeur obtenu
+                            req.body.confirmEmail=new Buffer(req.body.email).toString("base64");
+                            utilisateur.newEmail=req.body.email;
+                            req.body.email=utilisateur.email;
+                            utilisateur.confirmEmail=req.body.confirmEmail;
                             emailHasChange=true;
                             //Envoi de l'email à la nouvelle adresse renseignée par l'utilisateur
                             emailService.ConfirmEmail(utilisateur);
+                            Utilisateur.update({id:req.body.id},req.body).exec(function(err,utilisateur){
+                                if(utilisateur)
+                                {
+                                    Utilisateur.find({id:req.body.id}).populate('photo').exec(function(err,user)
+                                    {
+                                        console.log("utilisateur "+JSON.stringify(user));
+                                        user[0].dateDeNaissance=moment(new Date(user[0].dateDeNaissance),"DD MMMM YYYY");
+                                        if(user[0].confirmEmail=="")
+                                        {
+                                            user[0].emailVerifie=true;
+                                        }
+                                        if(user[0].confirmTel=="")
+                                        {
+                                            user[0].telephoneVerifie=true;
+                                        }
+                                        res.send({success: true,utilisateur:user[0],emailHasChange:emailHasChange,emailAlreadyExist:false});
+                                    })
+                                }
+                                if(err)
+                                {
+                                    console.log("error "+err);
+                                    res.send({success: false,err:err});
+                                }
+                            })
                         }
 
                     });
 
-
-
                 }else
                 {
                     //L'email n'a pas changé null
+                    emailHasChange=false;
                     req.body.confirmEmail="";
-                }
-                Utilisateur.update({id:req.body.id},req.body).exec(function(err,utilisateur){
-                    if(utilisateur)
-                    {
-                        Utilisateur.find({id:req.body.id}).populate('photo').exec(function(err,user)
+                    Utilisateur.update({id:req.body.id},req.body).exec(function(err,utilisateur){
+                        if(utilisateur)
                         {
-                            console.log("utilisateur "+JSON.stringify(user));
-                            user[0].dateDeNaissance=moment(new Date(user[0].dateDeNaissance),"DD MMMM YYYY");
-                            if(user[0].confirmEmail=="")
+                            Utilisateur.find({id:req.body.id}).populate('photo').exec(function(err,user)
                             {
-                                user[0].emailVerifie=true;
-                            }
-                            if(user[0].confirmTel=="")
-                            {
-                                user[0].telephoneVerifie=true;
-                            }
-                            res.send({success: true,utilisateur:user[0],emailHasChange:emailHasChange});
-                        })
-                    }
-                    if(err)
-                    {
-                        console.log("error "+err);
-                        res.send({success: false,err:err});
-                    }
-                })
+                                console.log("utilisateur "+JSON.stringify(user));
+                                user[0].dateDeNaissance=moment(new Date(user[0].dateDeNaissance),"DD MMMM YYYY");
+                                if(user[0].confirmEmail=="")
+                                {
+                                    user[0].emailVerifie=true;
+                                }
+                                if(user[0].confirmTel=="")
+                                {
+                                    user[0].telephoneVerifie=true;
+                                }
+                                res.send({success: true,utilisateur:user[0],emailHasChange:emailHasChange,emailAlreadyExist:false});
+                            })
+                        }
+                        if(err)
+                        {
+                            console.log("error "+err);
+                            res.send({success: false,err:err});
+                        }
+                    })
+                }
+
            }
         })
     },
