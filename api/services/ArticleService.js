@@ -118,7 +118,7 @@ module.exports={
     getArticlesVenduByUser:function(cb,val)
     {
        console.log("tototo"+cb.iduser);
-        Article.find().where({utilisateur: cb.iduser,etat:'Vendu'}).populate('images').populate('devise').exec(function(err,result){
+        Article.find().where({utilisateur: cb.iduser,etat:'Vendu'}).populate('images').populate('categorie').populate('devise').exec(function(err,result){
             if(result)
             {
                 val(null,result);
@@ -132,7 +132,7 @@ module.exports={
 
     getArticlesByUser:function(cb,val)
     {
-        Article.find().where({utilisateur: cb.iduser,etat:'Normal'}).populate('images').populate('devise').exec(function(err,result){
+        Article.find().where({utilisateur: cb.iduser,etat:'Normal'}).populate('images').populate('categorie').populate('devise').exec(function(err,result){
             if(result)
             {
                 val(null,result);
@@ -158,7 +158,7 @@ module.exports={
             article[i]=result[i].article;
           }
           console.log(article);
-          Article.find({idArticle:article}).populate('images').populate('devise').exec(function(err,res){
+          Article.find({idArticle:article}).populate('images').populate('categorie').populate('devise').exec(function(err,res){
             if(res)
             {
               val(err,res);
