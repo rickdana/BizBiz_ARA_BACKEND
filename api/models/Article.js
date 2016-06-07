@@ -62,7 +62,7 @@ module.exports = {
             index:true,
             required:true,
             notNull:true,
-            defaultsTo:Date.now()
+            defaultsTo:Date.now
         },
         /*idVille:{
             model:'ville',
@@ -134,11 +134,6 @@ module.exports = {
           collection:'conversation',
           via:'article'
         }
-    },
-    beforeCreate: function(article, cb) {
-        article.password = passwordHash.generate(utilisateur.password);
-        console.log("password hashé " + utilisateur.password);
-        cb(null, utilisateur);
     }
 };
 
