@@ -356,10 +356,10 @@ module.exports = {
         {
             ArticleService.getAllArticleInactif(function(err, articles) {
                 if (articles) {
-                    articles.forEach(function(article){
+                    /*articles.forEach(function(article){
                         article.dateAjout=moment(article.dateAjout).format("DD/MM/YYYY");
                         article.dateAjout=moment(article.dateAjout).format("DD/MM/YYYY");
-                    });
+                    });*/
                     res.view('articleInactif', {title: title, articles: articles,success:req.query.success});
                 }
                 if (err) {
@@ -428,9 +428,9 @@ module.exports = {
             ArticleService.getAllArticleActifByLimit({limit:req.query.limit,skip:req.query.skip},function(err,articles) {
                 console.log("Nombre d'articles Actif: " +JSON.stringify(articles));
                 if (articles) {
-                    articles.forEach(function (article) {
-                        article.dateAjout = moment(article.dateAjout).format("DD/MM/YYYY");
-                    });
+                    /*articles.forEach(function (article) {
+                        //article.dateAjout = moment(article.dateAjout).format("DD/MM/YYYY");
+                    });*/
                     res.send({articles: articles,hasArticle:true,nombreArticles:articles.length,nombreArticleTotal:nombreArticle});
                 }
                 else
@@ -452,9 +452,9 @@ module.exports = {
         ArticleService.getAllArticles(function(err,articles) {
             console.log("Nombre d'articles Actif: " +JSON.stringify(articles));
             if (articles) {
-                articles.forEach(function (article) {
+                /*articles.forEach(function (article) {
                     article.dateAjout = moment(article.dateAjout).format("DD/MM/YYYY");
-                });
+                });*/
                 res.send({articles: articles,hasArticle:true,nombreArticles:articles.length});
             }
             else
@@ -472,9 +472,9 @@ module.exports = {
 
         ArticleService.getArticleByCategorie({idcategorie: req.query.idcategorie},function(err,articles) {
             if (articles !==null && typeof articles !=='undefined'&& Object.keys(articles).length) {
-                articles.forEach(function(article){
+                /*articles.forEach(function(article){
                     article.dateAjout=moment(article.dateAjout).format("DD/MM/YYYY");
-                });
+                });*/
                 res.send({articles: articles,hasArticle:true});
             }
             else
@@ -492,7 +492,7 @@ module.exports = {
     getArticleById:function(req,res){
         ArticleService.getArticleById({idarticle:req.query.idarticle},function(err,article){
             if (article !==null && typeof article !=='undefined'&& Object.keys(article).length) {
-                    article.dateAjout=moment(article.dateAjout).format("DD/MM/YYYY");
+                    //article.dateAjout=moment(article.dateAjout).format("DD/MM/YYYY");
                     res.send({article: article,success:true});
             }
 
@@ -508,9 +508,9 @@ module.exports = {
         ArticleService.getArticlesVenduByUser({iduser:req.query.iduser},function(err,articles){
             console.log("Article vendus de l'utilisateur "+JSON.stringify(articles));
             if (articles) {
-                articles.forEach(function(article){
+                /*articles.forEach(function(article){
                     article.dateAjout=moment(article.dateAjout).format("DD/MM/YYYY");
-                });
+                });*/
                 res.send({articles: articles,success: true});
             }
 
@@ -526,9 +526,9 @@ module.exports = {
         ArticleService.getArticlesByUser({iduser:req.query.iduser},function(err,articles){
             console.log("Article de l'utilisateur "+JSON.stringify(articles));
             if (articles) {
-                articles.forEach(function(article){
+               /* articles.forEach(function(article){
                     article.dateAjout=moment(article.dateAjout).format("DD/MM/YYYY");
-                });
+                });*/
                 res.send({articles: articles,success: true});
             }else if (err) {
                 res.send({success: false,err:err});
@@ -540,9 +540,9 @@ module.exports = {
     {
       ArticleService.getArticlesFavorisByUser({iduser:req.query.iduser},function(err,articles){
         if (articles) {
-          articles.forEach(function(article){
+          /*articles.forEach(function(article){
             article.dateAjout=moment(article.dateAjout).format("DD/MM/YYYY");
-          });
+          });*/
           res.send({articles: articles,success: true});
         }
 

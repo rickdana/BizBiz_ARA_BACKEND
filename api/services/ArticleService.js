@@ -250,7 +250,7 @@ module.exports={
                   .where(optionMotClef)
                   .where({prix:{'>':prixmin, '<':prixmax}})
       .sort(cb.parametre.filterBy)
-      .populate('images').populate('devise').exec(function(err,result){
+      .populate('images').populate('categorie').populate('devise').exec(function(err,result){
       if(result)
       {
         val(null,result);
