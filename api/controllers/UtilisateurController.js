@@ -15,7 +15,7 @@ var pathPhoto='./assets/photoUtilisateur/';
 var pathFromView='/photoUtilisateur/';
 var pathPhotoUpload='../../assets/photoUtilisateur';
 var token_secret ='OccazStreet';
-
+var passwordHash = require('password-hash');
 
 module.exports = {
     indexUtilisateur:function(req,res)
@@ -165,11 +165,6 @@ module.exports = {
         Utilisateur.findOne({id:req.body.id}).exec(function(err,utilisateur){
             if(utilisateur)
             {
-               /* utilisateur.nom=req.body.nom;
-                utilisateur.prenom=req.body.prenom;
-                utilisateur.email=req.body.email;
-                utilisateur.p
-                utilisateur.*/
                 console.log('utilisateur trouvé');
                Utilisateur.update({id:req.body.id},req.body).exec(function(err,utilisateur){
                    if(utilisateur)
@@ -292,7 +287,7 @@ module.exports = {
                 utilisateur.email=email.toString();
                 utilisateur.confirmEmail=null;
 
-                Utilisateur.update({id:utilisateur.id},utilisateur).exec(function(err,user){
+                Utilisateur.update({id:utilisateur.id},{email:utilisateur.email,confirmEmail:utilisateur.confirmEmail}).exec(function(err,user){
                     if(user)
                     {
                         res.redirect(sails.config.myconf.siteUrl+"/success.html");
@@ -328,7 +323,7 @@ module.exports = {
             if(utilisateur) {
                 utilisateur.confirmTel = code;
                 utilisateur.telephone=req.query.telephone;
-                Utilisateur.update({id: utilisateur.id},utilisateur).exec(function (err, uti) {
+                Utilisateur.update({id: utilisateur.id},{confirmTel:utilisateur.confirmTel,telephone:utilisateur.telephone}).exec(function (err, uti) {
                     if(uti)
                     {
                         smsService.sendSMS(code,req.query.telephone);
@@ -364,7 +359,7 @@ module.exports = {
                 console.log("find"+JSON.stringify(utilisateur));
                 utilisateur[0].confirmTel="";
                 console.log(utilisateur[0].id);
-                Utilisateur.update({id: utilisateur[0].id}, utilisateur[0]).exec(function (err, uti) {
+                Utilisateur.update({id: utilisateur[0].id}, {confirmTel:utilisateur[0].confirmTel}).exec(function (err, uti) {
                     if (uti) {
                         console.log("uti"+JSON.stringify(uti));
 
@@ -586,7 +581,6 @@ module.exports = {
         utilisateur.device=req.body.device;
         utilisateur.os=req.body.os;
         utilisateur.provider='Normal';
-        console.log(JSON.stringify(utilisateur));
         Utilisateur.findOne({email:req.body.email,
             or : [
                 { provider: 'Facebook' },
@@ -644,7 +638,7 @@ module.exports = {
                             {
                                 console.log("Utilisateur crée");
                                 uti.token = jwTokenService.issue({id: uti});
-                                Utilisateur.update({id:uti.id},uti).exec(function(err,utilisateur1){
+                                Utilisateur.update({id:uti.id},{token:uti.token}).exec(function(err,utilisateur1){
                                     if(err)
                                     {
                                         console.log("Erreur update token user "+err);
@@ -794,7 +788,7 @@ module.exports = {
                                     if(u)
                                     {
                                         console.log("Mise à jour de l'utilisateur ");
-                                        Utilisateur.update({email:u.email},user).exec(function(err,u1){
+                                        Utilisateur.update({email:u.email},{photo:user.photo}).exec(function(err,u1){
                                             if(u1){
                                                 Utilisateur.findOne({id:u1[0].id}).populate('photo').exec(function(err,u2){
                                                     console.log("valeur retournée à l'appli==>"+JSON.stringify(u2));
@@ -924,7 +918,7 @@ module.exports = {
                             {
                                 console.log("Mise à jour de l'utilisateur ");
                                 console.log("utilisateur trouvé==>"+JSON.stringify(u));
-                                Utilisateur.update({email:u.email},user).exec(function(err,u1){
+                                Utilisateur.update({email:u.email},{photo:user.photo}).exec(function(err,u1){
                                     if(u1){
                                         console.log("user after update"+JSON.stringify(u1));
                                         Utilisateur.findOne({id:u1[0].id}).populate('photo').exec(function(err,u2){
@@ -1032,51 +1026,223 @@ module.exports = {
 
         })
     },
-    getActiviteUser:function(req,res)
-    {
-      var iduser=req.query.idutilisateur;
-      console.log("dans la fonction getActiviteUser");
+    getActiviteUser:function(req,res) {
+        var iduser = req.query.idutilisateur;
+        console.log("dans la fonction getActiviteUser");
 
-      var activiteUser={};
-      Utilisateur.findOne({id: iduser}, {select: ['dateInscription', 'dateDerniereConnexion']}).exec(function(err,u){
-        activiteUser.dateInscription=moment(new Date(u.dateInscription)).format("DD MMMM YYYY à HH:mm ");
-        activiteUser.dateDerniereConnexion=moment(new Date(u.dateDerniereConnexion)).format("DD MMMM YYYY à HH:mm ");
+        var activiteUser = {};
+        Utilisateur.findOne({id: iduser}, {select: ['dateInscription', 'dateDerniereConnexion']}).exec(function (err, u) {
+            activiteUser.dateInscription = moment(new Date(u.dateInscription)).format("DD MMMM YYYY à HH:mm ");
+            activiteUser.dateDerniereConnexion = moment(new Date(u.dateDerniereConnexion)).format("DD MMMM YYYY à HH:mm ");
 
-        Article.count().where({utilisateur: iduser,etat:'Vendu'}).exec(function(err,result){
-          if(err)
-          {
-            activiteUser.nombreArticleVendu=0;
-              res.json({
-                  success:true,
-                  activiteUser:activiteUser
-              });
-            console.log("une erreur est survenue lors de la recupération du nombre d'article vendu par l'utilisateur "+iduser+"==>"+err);
-          }
-          if(result !=null)
-          {
+            Article.count().where({utilisateur: iduser, etat: 'Vendu'}).exec(function (err, result) {
+                if (err) {
+                    activiteUser.nombreArticleVendu = 0;
+                    res.json({
+                        success: true,
+                        activiteUser: activiteUser
+                    });
+                    console.log("une erreur est survenue lors de la recupération du nombre d'article vendu par l'utilisateur " + iduser + "==>" + err);
+                }
+                if (result != null) {
 
-              activiteUser.nombreArticleVendu = result;
-            Article.count().where({utilisateur: iduser,etat:'Normal'}).exec(function(err2,result2){
-                if(err2)
-              {
-                console.log("une erreur est survenue lors de la recupération du nombre d'article publié par l'utilisateur "+iduser+"==>"+err);
+                    activiteUser.nombreArticleVendu = result;
+                    Article.count().where({utilisateur: iduser, etat: 'Normal'}).exec(function (err2, result2) {
+                        if (err2) {
+                            console.log("une erreur est survenue lors de la recupération du nombre d'article publié par l'utilisateur " + iduser + "==>" + err);
 
-                res.json({
-                  success:false,
-                  activiteUser:activiteUser
-                });
-              }
-              activiteUser.nombreArticlePublie = result2;
-              res.json({
-                success:true,
-                activiteUser:activiteUser
-              });
+                            res.json({
+                                success: false,
+                                activiteUser: activiteUser
+                            });
+                        }
+                        activiteUser.nombreArticlePublie = result2;
+                        res.json({
+                            success: true,
+                            activiteUser: activiteUser
+                        });
+
+                    })
+                }
 
             })
-          }
-
         })
-      })
+    },
+    uploadPhoto:function(req,res)
+    {
+        console.info("utilisateur.UploadPhoto: Debut de l'upload de l'image");
+
+        req.file('file')
+            .upload({ dirname: '../../assets/photoUtilisateur'},function (err, uploadedFiles) {
+
+                if (err) return res.serverError(err);
+                else {
+                    var chemin = '';
+                    var type = '';
+                    uploadedFiles.forEach(function (file) {
+                        chemin = require('path').basename(file.fd);
+                        type = file.type;
+                        console.log("le chemin du fichier importé "+chemin);
+
+                        Utilisateur.findOne({id:req.body.idUtilisateur}).exec(function(err,utilisateur) {
+                            if(utilisateur.photo !=1)
+                            {
+                                Photo.findOne({idPhoto:utilisateur.photo}).exec(function(err, p){
+                                    Photo.destroy({idPhoto:utilisateur.photo}).exec(function(err,ph){
+                                        console.log("detroyed photo "+JSON.stringify(p));
+                                        fs.unlink(sails.config.paths.public+pathFromView+p.cheminPhoto, function (err) {
+                                            if (err)
+                                            {
+                                                res.send({success:false});
+                                                throw err;
+                                            }
+                                            console.info('successfully deleted ol photo '+sails.config.paths.public+pathFromView+p.cheminPhoto);
+                                            Photo.create({cheminPhoto:chemin, typePhoto:type}).exec(function(err,photo){
+                                                if (err)
+                                                {
+                                                    console.log("erreur upload photo "+err);
+                                                    res.send({success:false});
+                                                }
+                                                console.log("idUtilisateur "+req.body.idUtilisateur);
+
+                                                if(photo)
+                                                {
+                                                    Utilisateur.findOne({id:req.body.idUtilisateur}).exec(function(err,u) {
+                                                        if (u)
+                                                        {
+                                                            u.photo=photo.idPhoto;
+                                                            console.log("photo" +JSON.stringify(photo));
+                                                            Utilisateur.update({id:u.id,email: u.email},{photo:photo.idPhoto}).exec(function(err,u1) {
+                                                                console.log('u1'+JSON.stringify(u1));
+                                                                if (u1) {
+                                                                    res.send({success:true,utilisateur:u1});
+                                                                }else
+                                                                {
+                                                                    console.log("destroyy photo");
+                                                                    Photo.destroy({idPhoto:u1.photo}).exec(function(err,p){
+                                                                        fs.unlink(sails.config.path+pathPhoto+p.cheminPhoto, function (err) {
+                                                                            if (err) throw err;
+                                                                            console.info('successfully deleted '+sails.config.path+pathPhoto+p.cheminPhoto);
+                                                                        });
+                                                                    });
+                                                                    res.send({success:false});
+                                                                }
+                                                            });
+                                                        }else
+                                                        {
+                                                            console.log("photo "+photo.idPhoto);
+                                                            Photo.destroy({idPhoto:photo.idPhoto}).exec(function(err,p){
+                                                                console.log(JSON.stringify(p));
+                                                                fs.unlink(sails.config.paths.public+pathFromView+photo.cheminPhoto, function (err) {
+                                                                    if (err) throw err;
+                                                                    console.info('successfully deleted '+sails.config.paths.public+pathFromView+pathPhoto+photo.cheminPhoto);
+                                                                });
+                                                            });
+                                                            res.send({success:false});
+                                                        }
+                                                    });
+                                                }
+                                            })
+                                        });
+                                    });
+
+                                });
+
+                            }else
+                            {
+                                Photo.create({cheminPhoto:chemin, typePhoto:type}).exec(function(err,photo){
+                                    if (err)
+                                    {
+                                        console.log("erreur upload photo "+err);
+                                        res.send({success:false});
+                                    }
+                                    console.log("idUtilisateur "+req.body.idUtilisateur);
+
+                                    if(photo)
+                                    {
+                                        Utilisateur.findOne({id:req.body.idUtilisateur}).exec(function(err,u) {
+                                            if (u)
+                                            {
+                                                u.photo=photo.idPhoto;
+                                                Utilisateur.update({id:u.id},{photo:photo.idPhoto}).exec(function(err,u1) {
+                                                    if (u1) {
+                                                        res.send({success:true,utilisateur:u1});
+                                                    }else
+                                                    {
+                                                        Photo.destroy({idPhoto:u1.photo}).exec(function(err,p){
+                                                            fs.unlink(sails.config.path+pathPhoto+p.cheminPhoto, function (err) {
+                                                                if (err) throw err;
+                                                                console.info('successfully deleted '+sails.config.path+pathPhoto+p.cheminPhoto);
+                                                            });
+                                                        });
+                                                        res.send({success:false});
+                                                    }
+                                                });
+                                            }else
+                                            {
+                                                console.log("photo "+photo.idPhoto);
+                                                Photo.destroy({idPhoto:photo.idPhoto}).exec(function(err,p){
+                                                    console.log(JSON.stringify(p));
+                                                    fs.unlink(sails.config.paths.public+pathFromView+photo.cheminPhoto, function (err) {
+                                                        if (err) throw err;
+                                                        console.info('successfully deleted '+sails.config.paths.public+pathFromView+pathPhoto+photo.cheminPhoto);
+                                                    });
+                                                });
+                                                res.send({success:false});
+                                            }
+                                        });
+                                    }
+                                })
+                            }
+
+                        })
+
+                    });
+
+                }
+            });
+    },
+
+    temporaryPasswordGen:function (len)
+    {
+        var text="";
+        var charset="ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+
+        for(var i=0;i<len;i++)
+        {
+            text +=charset.charAt(Math.floor(Math.random()*charset.length));
+        }
+        return text;
+    },
+
+    reInitPassword:function(req,res)
+    {
+        console.log("UtilisateurController.reinitPassword  "+req.body.email);
+        Utilisateur.findOne({email:req.body.email}).exec(function(err,user){
+           if(user)
+           {
+               var tempPassword="";
+               var charset="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+               for(var i=0;i<8;i++)
+               {
+                   tempPassword +=charset.charAt(Math.floor(Math.random()*charset.length));
+               }
+               sails.log("utilisateur trouvé" +user.email);
+               //Génération du mot de passe temporaire  à envoyer à l'utilisateur
+              // var code= Math.floor(1000 + Math.random() * 9000);
+               emailService.sendMailReInitPassword(user,tempPassword);
+               sails.log("code "+tempPassword);
+
+               Utilisateur.update({email:user.email},{password: passwordHash.generate(tempPassword)}).exec(function(err,user){
+                    res.send({success:true,user:user});
+               })
+
+           }else
+           {
+               sails.log(user);
+               res.send({success:false});
+           }
+        })
     }
 
 };

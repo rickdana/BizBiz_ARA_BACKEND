@@ -101,9 +101,11 @@ module.exports={
         Article.findOne({idArticle:cb.idarticle}).populate('utilisateur').populate('images').populate('categorie').populate('devise').exec(function(err,article){
             if(article)
             {
-
+                console.log("check photo");
                 Photo.findOne({idPhoto:article.utilisateur.photo}).exec(function(err,photo){
-                    article.photo=photo;
+                    article["photo"]=photo;
+                    console.log( "photo article detail" +JSON.stringify(article.photo));
+
                     val(null,article);
                 })
 

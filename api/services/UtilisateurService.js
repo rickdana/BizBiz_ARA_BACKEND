@@ -86,8 +86,8 @@ module.exports={
                 if(passwordHash.verify(cb.oldPassword, utilisateur.password))
                 {
                     console.log("ancien password verifié");
-                    utilisateur.password=passwordHash.generate(cb.newPassword);
-                    Utilisateur.update({id:utilisateur.id},utilisateur).exec(function(err,u2){
+                   //  utilisateur.password=passwordHash.generate(cb.newPassword);
+                    Utilisateur.update({id:utilisateur.id},{password:passwordHash.generate(cb.newPassword)}).exec(function(err,u2){
                         if(u2)
                         {
                             console.log("mise à jour effectué");

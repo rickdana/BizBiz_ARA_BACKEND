@@ -186,20 +186,28 @@ module.exports = {
     /*Procees creation d'un article mobile*/
     createArticleP: function (req, res) {
         var article=req.body;
-        Article.create(article).exec(function (err, article) {
+        if(article.utilisateur==0)
+        {
+            console.error("article.addArticleP=>Une erreur a été rencontrée lors de l'ajout de l'article: "+err);
+            return res.send({success:false,err:err,erroCode:404});
+        }else
+        {
+            Article.create(article).exec(function (err, article) {
 
-            if(article)
-            {
-                return res.send({success:true,article:article});
-            }
+                if(article)
+                {
+                    return res.send({success:true,article:article});
+                }
 
-            if(err)
-            {
-                console.error("article.addArticleP=>Une erreur a été rencontrée lors de l'ajout de l'article: "+err);
-                return res.send({success:false,err:err});
+                if(err)
+                {
+                    console.error("article.addArticleP=>Une erreur a été rencontrée lors de l'ajout de l'article: "+err);
+                    return res.send({success:false,err:err});
 
-            }
-        })
+                }
+            })
+        }
+
     },
 
     uploadImage:function(req,res)
@@ -256,9 +264,9 @@ module.exports = {
                     if(images)
                     {
                         images.forEach(function(image){
-                            fs.unlink(sails.config.path+repertoireImage+image.cheminImage, function (err) {
+                            fs.unlink(sails.config.paths.public+repertoireImage+image.cheminImage, function (err) {
                                 if (err) throw err;
-                                console.info('successfully deleted '+sails.config.path+repertoireImage+image.cheminImage);
+                                console.info('successfully deleted '+sails.config.paths.public+repertoireImage+image.cheminImage);
                             });
                         })
                     }
@@ -426,11 +434,21 @@ module.exports = {
         Article.count({where:{statut:'A'}}).exec(function countCB(error, found) {
             nombreArticle=found;
             ArticleService.getAllArticleActifByLimit({limit:req.query.limit,skip:req.query.skip},function(err,articles) {
-                console.log("Nombre d'articles Actif: " +JSON.stringify(articles));
                 if (articles) {
-                    /*articles.forEach(function (article) {
+                    articles.forEach(function (article) {
+                        console.log("article toto "+JSON.stringify(article.utilisateur));
                         //article.dateAjout = moment(article.dateAjout).format("DD/MM/YYYY");
-                    });*/
+                        Utilisateur.findOne({id:article.utilisateur.id}).populate('photo').exec(function(err,utilisateur){
+                            console.log("utilisateur article"+JSON.stringify(utilisateur));
+                            article["photo"]=utilisateur.photo;
+                        });
+                       /* Photo.findOne({idPhoto:article.utilisateur.photo}).exec(function(err,photo){
+                            console.log( "photo detail" +JSON.stringify(photo));
+                            article["photo"]=photo;
+                            console.log(JSON.stringify(article));
+
+                        })*/
+                    });
                     res.send({articles: articles,hasArticle:true,nombreArticles:articles.length,nombreArticleTotal:nombreArticle});
                 }
                 else
@@ -450,7 +468,6 @@ module.exports = {
         console.log("getAllArticles");
 
         ArticleService.getAllArticles(function(err,articles) {
-            console.log("Nombre d'articles Actif: " +JSON.stringify(articles));
             if (articles) {
                 /*articles.forEach(function (article) {
                     article.dateAjout = moment(article.dateAjout).format("DD/MM/YYYY");
