@@ -12,7 +12,6 @@ module.exports = {
         Devise.find({where:{statut:'A'},sort:'libelle ASC'}).exec(function(err,devise)
         {
             if (devise) {
-                console.log("devise "+JSON.stringify(devise));
                 res.send({devises: devise});
             }
             if (err) {
