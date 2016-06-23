@@ -230,7 +230,7 @@ module.exports = {
                             console.log("creation de l'image pour l'article "+req.body.idArticle);
                             if (err)
                             {
-
+                                console.log("Une erreur a été rencontrée lors de la création de l'image "+err);
                                 res.send({success:false});
                             }
 
@@ -427,19 +427,16 @@ module.exports = {
     },
     getArticlesByLimit:function(req,res)
     {
-        console.log("getArticlesByLimit");
-        console.log("limit ==>"+req.query.limit);
-        console.log("skip ==>"+req.query.skip);
+        console.log("ArticleController.getArticlesByLimit");
+
         var nombreArticle=0;
         Article.count({where:{statut:'A'}}).exec(function countCB(error, found) {
             nombreArticle=found;
             ArticleService.getAllArticleActifByLimit({limit:req.query.limit,skip:req.query.skip},function(err,articles) {
                 if (articles) {
                     articles.forEach(function (article) {
-                        console.log("article toto "+JSON.stringify(article.utilisateur));
                         //article.dateAjout = moment(article.dateAjout).format("DD/MM/YYYY");
                         Utilisateur.findOne({id:article.utilisateur.id}).populate('photo').exec(function(err,utilisateur){
-                            console.log("utilisateur article"+JSON.stringify(utilisateur));
                             article["photo"]=utilisateur.photo;
                         });
                        /* Photo.findOne({idPhoto:article.utilisateur.photo}).exec(function(err,photo){
@@ -465,7 +462,7 @@ module.exports = {
     },
     getAllArticles:function(req,res)
     {
-        console.log("getAllArticles");
+        console.log("ArticleController.getAllArticles");
 
         ArticleService.getAllArticles(function(err,articles) {
             if (articles) {
@@ -522,8 +519,8 @@ module.exports = {
 
     getArticlesVenduByUser:function(req,res)
     {
+        sails.log("ArticleController.getArticlesVendutByUser");
         ArticleService.getArticlesVenduByUser({iduser:req.query.iduser},function(err,articles){
-            console.log("Article vendus de l'utilisateur "+JSON.stringify(articles));
             if (articles) {
                 /*articles.forEach(function(article){
                     article.dateAjout=moment(article.dateAjout).format("DD/MM/YYYY");
@@ -540,8 +537,8 @@ module.exports = {
 
     getArticlesByUser:function(req,res)
     {
+        sails.log("ArticleController.getArticlesByUser");
         ArticleService.getArticlesByUser({iduser:req.query.iduser},function(err,articles){
-            console.log("Article de l'utilisateur "+JSON.stringify(articles));
             if (articles) {
                /* articles.forEach(function(article){
                     article.dateAjout=moment(article.dateAjout).format("DD/MM/YYYY");
@@ -555,7 +552,9 @@ module.exports = {
     },
     getArticlesFavorisByUser:function(req,res)
     {
-      ArticleService.getArticlesFavorisByUser({iduser:req.query.iduser},function(err,articles){
+        sails.log("ArticleController.getArticlesFavorisByUser");
+
+        ArticleService.getArticlesFavorisByUser({iduser:req.query.iduser},function(err,articles){
         if (articles) {
           /*articles.forEach(function(article){
             article.dateAjout=moment(article.dateAjout).format("DD/MM/YYYY");
@@ -620,7 +619,7 @@ module.exports = {
 
   getArticlesByParam:function(req,res)
   {
-    console.log(req.body);
+      sails.log("ArticleController.getArticleByParam");
     ArticleService.getArticleByParam({parametre:req.body},function(err,articles){
       console.log("articles trouvés: "+JSON.stringify(articles));
       res.send({success:true,articles:articles});

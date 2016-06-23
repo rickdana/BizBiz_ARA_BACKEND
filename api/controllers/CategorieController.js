@@ -4,7 +4,8 @@
  * @description :: Server-side logic for managing Categories
  * @help        :: See http://links.sailsjs.org/docs/controllers
  */
-"use stricts"
+
+'use strict';
 module.exports = {
 
     /*Creation d'une nouvelle categorie*/
@@ -120,7 +121,6 @@ module.exports = {
         CategorieService.getAllCategorie(function(err, categories){
             if(categories)
             {
-                console.log(categories);
                 res.send({categories: categories});
             }
 

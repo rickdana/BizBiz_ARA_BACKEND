@@ -20,8 +20,6 @@ module.exports={
     getAllArticleActifByLimit:function(cb,val)
     {
         console.log("ArticleService.getAllArticleActif");
-        console.log("limit==>"+cb.limit);
-        console.log("skip==>"+cb.skip);
         Article.find({where:{statut:'A'},limit:cb.limit, skip:cb.skip, sort:'dateAjout DESC'}).populate('utilisateur').populate('categorie').populate('images').populate('devise').exec(function(err,articles)
         {
             if(articles)
@@ -119,7 +117,6 @@ module.exports={
 
     getArticlesVenduByUser:function(cb,val)
     {
-       console.log("tototo"+cb.iduser);
         Article.find().where({utilisateur: cb.iduser,etat:'Vendu'}).populate('images').populate('categorie').populate('devise').exec(function(err,result){
             if(result)
             {
@@ -153,13 +150,11 @@ module.exports={
       Favoris.find({utilisateur: cb.iduser},{select: ['article']}).exec(function(err,result){
         if(result)
         {
-           console.log(JSON.stringify(result));
           var article=[];
           for(var i=0;i<result.length;i++)
           {
             article[i]=result[i].article;
           }
-          console.log(article);
           Article.find({idArticle:article}).populate('images').populate('categorie').populate('devise').exec(function(err,res){
             if(res)
             {
@@ -206,10 +201,7 @@ module.exports={
 
   getArticleByParam:function(cb,val)
   {
-    console.log("Categorie "+cb.parametre.categorie);
-    console.log("Mots clef "+cb.parametre.motclef);
 
-    console.log("sort by "+cb.parametre.filterBy);
     var prixmin=0;
     var prixmax=1000000000;
     var optionCategorie = optionCategorie || {};
@@ -241,11 +233,6 @@ module.exports={
     {
       prixmax=cb.parametre.prixmax;
     }
-    console.log("prix min "+prixmin);
-    console.log("prix max "+prixmax);
-    console.log(optionCategorie);
-    console.log(optionLocalisation);
-    console.log(optionMotClef);
 
     Article.find().where(optionCategorie)
                   .where(optionLocalisation)
