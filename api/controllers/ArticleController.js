@@ -196,6 +196,7 @@ module.exports = {
 
                 if(article)
                 {
+                    emailService.sendMailArticleAjoute(article);
                     return res.send({success:true,article:article});
                 }
 
@@ -417,6 +418,26 @@ module.exports = {
                         res.send({success:'false',message:req.__('article.erreur.activation')})
                     }
                 })
+            }
+            if(err)
+            {
+                console.log("error "+err);
+            }
+
+        })
+    },
+
+    signalerArticle:function(req,res)
+    {
+        console.log(JSON.stringify(req.body));
+        var article =req.body.idarticle;
+        ArticleService.getArticleById({idarticle: req.body.signalement.idarticle}, function (err, article) {
+
+            if(article)
+            {
+                emailService.sendMailSignalementAnnonce(req.body.signalement,article);
+
+                res.send({success:true});
             }
             if(err)
             {

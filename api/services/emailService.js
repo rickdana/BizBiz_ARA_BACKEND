@@ -15,7 +15,11 @@ var path =require('path');
 var templatesDir   = path.join(__dirname, '../../views/templates/emails')
     , emailTemplates = require('email-templates')
     , nodemailer     = require('nodemailer')
-    ,templatesForgotPassword=path.join(__dirname, '../../views/templates/password');
+    ,templatesForgotPassword=path.join(__dirname, '../../views/templates/password')
+    ,templatesSignalerArticle=path.join(__dirname, '../../views/templates/moderation'),
+    templatesArticleAjoute=path.join(__dirname, '../../views/templates/moderation')
+    ;
+
 module.exports = {
 
     /***************************************************************
@@ -93,6 +97,81 @@ module.exports = {
                             from: 'contact@occazstreet.com',
                             to: locals.email,
                             subject: 'OccazStreet: Réinitialisation du mot de passe',
+                            html: html,
+                            generateTextFromHTML: true
+                            //text: text
+                        }, function (err, responseStatus) {
+                            if (err) {
+                                console.log("err "+err);
+                            } else {
+                                console.log("responseStatus.message "+JSON.stringify(responseStatus));
+                            }
+                        });
+                    }
+                })
+            }
+        })
+    },
+
+    /***************************************************************
+     *
+     *     Email de signalement d'une annonce
+     *
+     * **************************************************************/
+    sendMailSignalementAnnonce:function(signalement,article)
+    {
+        console.log(JSON.stringify(signalement));
+        emailTemplates(templatesSignalerArticle,function(err,template){
+            if (err) {
+                console.log(err);
+            } else {
+                template('signaler-article',{infoContact:'contact@occazstreet.com',urlSite:'www.occazstreet.com',idArticle:article.idArticle,articleTitre:article.titre, messageAuteurSignalement:signalement.message, mailAuteurSignalement:signalement.email, nomAuteurSignalement:signalement.nom, auteurArticle:article.utilisateur.email, motifSignalement:signalement.motif
+                }, function(err, html) {
+                    if (err) {
+                        console.log(err);
+                    } else {
+
+                        transport.sendMail({
+                            from: signalement.email,
+                            to: 'moderation@occazstreet.com',
+                            subject: 'OccazStreet: Signalement article',
+                            html: html,
+                            generateTextFromHTML: true
+                            //text: text
+                        }, function (err, responseStatus) {
+                            if (err) {
+                                console.log("err "+err);
+                            } else {
+                                console.log("responseStatus.message "+JSON.stringify(responseStatus));
+                            }
+                        });
+                    }
+                })
+            }
+        })
+    },
+
+    /***************************************************************
+     *
+     *     Email de ajout d'une annonce
+     *
+     * **************************************************************/
+    sendMailArticleAjoute:function(article)
+    {
+        emailTemplates(templatesArticleAjoute,function(err,template){
+            if (err) {
+                console.log(err);
+            } else {
+                template('ajout-article',{infoContact:'contact@occazstreet.com',urlSite:'www.occazstreet.com',idArticle:article.idArticle,articleTitre:article.titre,auteurArticle:article.utilisateur.email
+                }, function(err, html) {
+                    if (err) {
+                        console.log(err);
+                    } else {
+
+                        transport.sendMail({
+                            from: 'contact@occazstreet.com',
+                            to: 'moderation@occazstreet.com',
+                            subject: '[ARTICE A VALIDER]OccazStreet: Ajout d\'un nouvel article',
                             html: html,
                             generateTextFromHTML: true
                             //text: text

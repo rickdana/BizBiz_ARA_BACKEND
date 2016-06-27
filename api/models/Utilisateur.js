@@ -126,7 +126,8 @@ module.exports = {
             type:'string',
             columnName:'NOMPAYS',
             size:50,
-            notNull:true
+            notNull:true,
+            defaultsTo:'Cameroun'
         },
         articles:{
             collection:'article',
