@@ -186,5 +186,42 @@ module.exports = {
                 })
             }
         })
-    }
+    },
+    /***************************************************************
+     *
+     *     Email de signalement d'une annonce
+     *
+     * **************************************************************/
+    sendMessageContact:function(infoContact)
+    {
+        emailTemplates(templatesSignalerArticle,function(err,template){
+            if (err) {
+                console.log(err);
+            } else {
+                template('message-contact',{sujet:infoContact.sujet,infoContact:'contact@occazstreet.com',urlSite:'www.occazstreet.com',message:infoContact.message, email:infoContact.email, nom:infoContact.nom
+                }, function(err, html) {
+                    if (err) {
+                        console.log(err);
+                    } else {
+
+                        transport.sendMail({
+                            from: infoContact.email,
+                            to: 'contact@occazstreet.com',
+                            subject: 'OccazStreet: '+infoContact.sujet,
+                            html: html,
+                            generateTextFromHTML: true
+                            //text: text
+                        }, function (err, responseStatus) {
+                            if (err) {
+                                console.log("err "+err);
+                            } else {
+                                console.log("responseStatus.message "+JSON.stringify(responseStatus));
+                            }
+                        });
+                    }
+                })
+            }
+        })
+    },
+
 };

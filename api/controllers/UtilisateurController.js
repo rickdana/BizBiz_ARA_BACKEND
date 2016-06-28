@@ -744,12 +744,16 @@ module.exports = {
                     user.prenom=dataInfoUser.last_name;
                     user.email=dataInfoUser.email;
                     user.dateDeNaissance=dataInfoUser.birthday;
-                    var location=dataInfoUser.location.name.split(", ");
+                    if(typeof dataInfoUser.location !='undefined')
+                    {
+                        var location=dataInfoUser.location.name.split(", ");
+                        user.nomVille=location[0];
+                        user.nomPays=location[1];
+                    }
                     user.os=userData.os;
                     user.device=userData.device;
                     user.telephone=userData.telephone;
-                    user.nomVille=location[0];
-                    user.nomPays=location[1];
+
                     user.provider='Facebook';
                     user.oauthUserId=dataInfoUser.id;
                     user.password="";

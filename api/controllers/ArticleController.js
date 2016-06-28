@@ -446,6 +446,11 @@ module.exports = {
 
         })
     },
+    sendMessageContact:function(req,res)
+    {
+        emailService.sendMessageContact(req.body.contact);
+        res.send({success:true});
+    },
     getArticlesByLimit:function(req,res)
     {
         console.log("ArticleController.getArticlesByLimit");

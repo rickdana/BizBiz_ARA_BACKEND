@@ -24,6 +24,7 @@ module.exports = {
             columnName:"SEXE",
             notNull:true,
             enum:[1,2],
+            defaultsTo:1,
             index:true
 
         },
@@ -47,7 +48,7 @@ module.exports = {
         dateDeNaissance:
         {
             type:'date',
-            columnName:'DATEDENAISSANCE',
+            columnName:'DATEDENAISSANCE'
             //required:true,
             //notNull:true
         },
@@ -118,15 +119,12 @@ module.exports = {
         nomVille:{
             type:'string',
             columnName:'NOMVILLE',
-            size:50,
-            notNull:true
-
+            size:50
         },
         nomPays:{
             type:'string',
             columnName:'NOMPAYS',
             size:50,
-            notNull:true,
             defaultsTo:'Cameroun'
         },
         articles:{

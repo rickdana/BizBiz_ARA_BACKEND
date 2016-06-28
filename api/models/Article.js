@@ -64,6 +64,10 @@ module.exports = {
             notNull:true,
             defaultsTo:Date.now
         },
+        dateModification:{
+            type:'datetime',
+            columnName:'DATEAMODIFICATION'
+        },
         /*idVille:{
             model:'ville',
             columnName:'IDVILLE'
@@ -72,6 +76,11 @@ module.exports = {
             type:'String',
             columnName:'NOMVILLE',
             index:true
+        },
+        complementadresse:{
+            type:'String',
+            columnName:'COMPLEMENTADRESSE',
+            size:100
         },
         nomDepartement:{
           type:'String',
