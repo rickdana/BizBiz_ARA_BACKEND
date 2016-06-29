@@ -6,8 +6,8 @@ var options={
     secureConnection: true,
     host:'ssl0.ovh.net',
     auth: {
-        user: 'kukkea@kukkea.com',
-        pass: 'kukkea1#'
+        user: 'occazstreet@occazstreet.com',
+        pass: 'occazSTREET1#'
     }
 };
 var transport = nodemailer.createTransport("SMTP",options);
