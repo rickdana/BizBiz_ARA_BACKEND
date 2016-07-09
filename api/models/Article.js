@@ -132,7 +132,8 @@ module.exports = {
         devise:
         {
             model:'devise',
-            columnName:'DEVISE'
+            columnName:'DEVISE',
+            defaultsTo:1
         },
         nombreDeVue:
         {

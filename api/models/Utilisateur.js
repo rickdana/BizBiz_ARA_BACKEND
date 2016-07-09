@@ -170,6 +170,12 @@ module.exports = {
             columnName:'OS',
             type:"string"
         },
+        afficherTel:
+        {
+            columnName:'AFFICHERTEL',
+            type:"boolean",
+            defaultsTo:true
+        },
         // We don't wan't to send back encrypted password either
         toJSON: function () {
             var obj = this.toObject();

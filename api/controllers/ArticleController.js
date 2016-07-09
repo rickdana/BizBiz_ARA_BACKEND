@@ -7,6 +7,9 @@
 
 var moment=require('moment');
 var repertoireImage='/imagesArticle/';
+var fs = require('fs');
+var path =require('path');
+
 module.exports = {
 
     /*view*/
@@ -240,6 +243,73 @@ module.exports = {
                                res.send({success:true});
                             }
                         })
+                    });
+
+                }
+            });
+    },
+    updateImage:function(req,res)
+    {
+        console.info("article.UploadImage: Debut de l'upload de l'image");
+        console.log(JSON.stringify(req.body.options));
+        console.log("id article to change photo "+req.body.idArticle);
+        req.file('file')
+            .upload({ dirname: '../../assets/imagesArticle'},function (err, uploadedFiles) {
+
+                if (err) return res.serverError(err);
+                else {
+                    var chemin = '';
+                    var type = '';
+                    uploadedFiles.forEach(function (file) {
+                        chemin = require('path').basename(file.fd);
+                        type = file.type;
+                        console.log("le chemin du fichier importé "+chemin);
+
+                        Article.findOne({idArticle:req.body.idArticle}).populate('images').exec(function(err,article) {
+                            console.log("article dont il faut changer la photo "+JSON.stringify(article));
+                            if(article)
+                            {
+                                if(article.images)
+                                {
+                                    var sizeImage=article.images.length;
+                                    article.images.forEach(function(image){
+                                        Image.destroy({idImage:image.idImage}).exec(function(err,img){
+                                            if(img)
+                                            {
+
+                                            }if(err)
+                                            {
+                                                res.send({success:false});
+                                            }
+                                        });
+                                        fs.unlink(sails.config.paths.public+repertoireImage+image.cheminImage, function (err) {
+                                            if (err)
+                                            {
+                                                res.send({success:false});
+                                                throw err;
+                                            }
+                                            console.info('successfully deleted '+sails.config.paths.public+repertoireImage+image.cheminImage);
+                                        });
+                                        sizeImage--;
+                                    });
+                                    if(sizeImage==0)
+                                    {
+                                        Image.create({cheminImage:chemin, typeImage:type, article:req.body.idArticle}).exec(function(err,image) {
+                                            if (err) {
+                                                console.log("erreur upload photo " + err);
+                                                res.send({success: false});
+                                            }
+                                            Article.findOne({idArticle:req.body.idArticle}).populate('utilisateur').populate('categorie').populate('images').exec(function(err,article) {
+
+                                                res.send({success:true,article:article});
+                                            });
+
+                                        });
+                                    }
+                                }
+                            }
+
+                        });
                     });
 
                 }
