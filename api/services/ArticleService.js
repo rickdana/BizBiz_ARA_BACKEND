@@ -102,8 +102,6 @@ module.exports={
                 console.log("check photo");
                 Photo.findOne({idPhoto:article.utilisateur.photo}).exec(function(err,photo){
                     article["photo"]=photo;
-                    console.log( "photo article detail" +JSON.stringify(article.photo));
-
                     val(null,article);
                 })
 
@@ -117,7 +115,7 @@ module.exports={
 
     getArticlesVenduByUser:function(cb,val)
     {
-        Article.find().where({utilisateur: cb.iduser,etat:'Vendu'}).populate('images').populate('categorie').populate('devise').exec(function(err,result){
+        Article.find().where({utilisateur: cb.iduser,etat:'Vendu'}).populate('images').populate('categorie').populate('devise').populate('utilisateur').exec(function(err,result){
             if(result)
             {
                 val(null,result);
@@ -131,7 +129,7 @@ module.exports={
 
     getArticlesByUser:function(cb,val)
     {
-        Article.find().where({utilisateur: cb.iduser,etat:'Normal'}).populate('images').populate('categorie').populate('devise').exec(function(err,result){
+        Article.find().where({utilisateur: cb.iduser,etat:'Normal'}).populate('images').populate('categorie').populate('devise').populate('utilisateur').exec(function(err,result){
             if(result)
             {
                 val(null,result);
@@ -155,7 +153,7 @@ module.exports={
           {
             article[i]=result[i].article;
           }
-          Article.find({idArticle:article}).populate('images').populate('categorie').populate('devise').exec(function(err,res){
+          Article.find({idArticle:article}).populate('images').populate('categorie').populate('devise').populate('utilisateur').exec(function(err,res){
             if(res)
             {
               val(err,res);
@@ -201,7 +199,7 @@ module.exports={
 
   getArticleByParam:function(cb,val)
   {
-
+      sails.log(JSON.stringify(cb));
     var prixmin=0;
     var prixmax=1000000000;
     var optionCategorie = optionCategorie || {};
@@ -213,9 +211,9 @@ module.exports={
     {
       optionCategorie.categorie=  cb.parametre.categorie;
     }
-    if (typeof cb.parametre.localisation !== "undefined")
+    if (typeof cb.parametre.ville !== "undefined")
     {
-      optionLocalisation.nomVille=cb.parametre.localisation.address_components[0].long_name;
+      optionLocalisation.nomVille=cb.parametre.ville;
     }
     if(typeof cb.parametre.motclef !== "undefined" )
     {
@@ -234,7 +232,10 @@ module.exports={
       prixmax=cb.parametre.prixmax;
     }
 
-    Article.find().where(optionCategorie)
+      sails.log(optionCategorie);
+      sails.log(optionLocalisation);
+      sails.log(optionMotClef);
+      Article.find().where(optionCategorie)
                   .where(optionLocalisation)
                   .where(optionMotClef)
                   .where({prix:{'>':prixmin, '<':prixmax}})
@@ -242,6 +243,7 @@ module.exports={
       .populate('images').populate('categorie').populate('devise').exec(function(err,result){
       if(result)
       {
+          console.log(JSON.stringify(result));
         val(null,result);
       }
       if(err)
