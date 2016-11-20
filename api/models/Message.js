@@ -17,12 +17,12 @@ module.exports = {
             type:'text',
             notNull:true
         },
-       /* lu:{
+        lu:{
            columnName:'LU',
            required:true,
            type:'boolean',
            notNull:true
-        },*/
+        },
         idMessage:{
             columnName:'IDMESSAGE',
             primaryKey:true,

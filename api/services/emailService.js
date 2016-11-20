@@ -24,6 +24,52 @@ module.exports = {
 
     /***************************************************************
      *
+     *     Email de confirmation inscriptionée
+     *
+     * **************************************************************/
+    ConfirmEmail:function(utilisateur)
+    {
+        emailTemplates(templatesDir,function(err,template){
+            if (err) {
+                console.log(err);
+            } else {
+
+                var locals = {
+                    email: utilisateur.newEmail,
+                    nom:utilisateur.prenom +' '+utilisateur.nom,
+                    confirmEmailUrl:sails.config.myconf.serverUrl+sails.config.myconf.serverPort+'/v/verifEmail?verif='+utilisateur.confirmEmail,
+                    infoContact:'contact@occazstreet.com',
+                    baseUrl:sails.getBaseurl()
+                };
+                console.log(sails.getBaseurl());
+                template('confirm-email',{confirmEmailUrl:sails.config.myconf.serverUrl+sails.config.myconf.serverPort+'/v/verifEmail?verif='+utilisateur.confirmEmail, infoContact:'info@occazstreet.com',baseUrl:sails.getBaseurl(),urlSite:'www.occazstreet.com', nom:utilisateur.prenom +' '+utilisateur.nom
+                }, function(err, html) {
+                    if (err) {
+                        console.log(err);
+                    } else {
+
+                        transport.sendMail({
+                            from: 'contact@occazstreet.com',
+                            to: locals.email,
+                            subject: 'OccazStreet: Vérification e-mail',
+                            html: html,
+                            generateTextFromHTML: true
+                            //text: text
+                        }, function (err, responseStatus) {
+                            if (err) {
+                                console.log("err "+err);
+                            } else {
+                                console.log("responseStatus.message "+JSON.stringify(responseStatus));
+                            }
+                        });
+                    }
+                })
+            }
+        })
+    },
+
+    /***************************************************************
+     *
      *     Email de confirmation de la nouvelle adresse email
      *
      * **************************************************************/

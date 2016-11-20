@@ -135,6 +135,18 @@ module.exports = {
             columnName:'DEVISE',
             defaultsTo:1
         },
+        echangeable:
+        {
+            columnName:'ECHANGEABLE',
+            type:"boolean",
+            defaultsTo:false
+        },
+        negociable:
+        {
+            columnName:'NEGOCIABLE',
+            type:"boolean",
+            defaultsTo:false
+        },
         nombreDeVue:
         {
             columnName:'NOMBREDEVUE',

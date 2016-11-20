@@ -9,6 +9,11 @@ var moment=require('moment');
 var repertoireImage='/imagesArticle/';
 var fs = require('fs');
 var path =require('path');
+var async = require("async");
+var FCM = require('fcm-node');
+var serverKey = 'AIzaSyAGuqalxHgv7Uun-T29BYbNOeakWBuCO5g';
+var fcm = new FCM(serverKey);
+
 
 module.exports = {
 
@@ -61,7 +66,6 @@ module.exports = {
     editArticle:function(req,res){
         var title=req.__('gestiondesarticles.title');
         ArticleService.getArticleById({idarticle:req.query.idarticle},function(err,article){
-            console.log(article.titre);
             if(article)
             {
                 res.view('editArticle', {title:title,  article: article});
@@ -93,14 +97,6 @@ module.exports = {
         /*article.idutilisateur=req.body.idutilisateur;
         article.idcategorie=req.body.idcategorie;
         article.*/
-        console.log("article.titre "+article.titre);
-        console.log("article.details "+article.details);
-        console.log("article.prix "+article.prix);
-        console.log("article.dateAjout "+article.dateAjout);
-        console.log("article.categorie "+article.categorie);
-        console.log("article.statut "+article.statut);
-        console.log("article.ville "+article.nomVille);
-        console.log("article.pays "+article.nompays);
 
 
         if(req.method=='GET')
@@ -199,7 +195,45 @@ module.exports = {
 
                 if(article)
                 {
+                    var pushInfo={};
+                    pushInfo.type='newMessage';
+                    pushInfo.title='Messagerie OccazStreet';
+                    pushInfo.body='Vous avez recu un nouveau message sur Occazstreet';
                     emailService.sendMailArticleAjoute(article);
+                    Devicepush.find().exec(function(err,registrationTokens){
+                        async.forEach(registrationTokens,function(token,callback){
+                            var pushMessage = { //this may vary according to the message type (single recipient, multicast, topic, et cetera)
+                                to: token.deviceToken,
+                                notification: {
+                                    title: 'Nouvelle annonce',
+                                    body: 'Une nouvelle annonce vient d\'être créee et elle pourrait vous interesser'
+                                },
+                                data: {  //you can send only notification or only data(or include both)
+                                    data:article,
+                                    pushInfo:pushInfo
+                                }
+                            };
+                            fcm.send(pushMessage, function(err, response){
+                                if (err) {
+                                    console.log("Something has gone wrong!");
+                                } else {
+                                    callback();
+                                    console.log("Successfully sent with response: ", response);
+                                }
+                            });
+
+                        },
+                        function(err){
+                            console.log("err ==>"+err);
+                            if(err)
+                            {
+                               console.log(err)
+                            }else
+                            {
+                               console.log();
+                            }
+                        });
+                    });
                     return res.send({success:true,article:article});
                 }
 
@@ -211,7 +245,6 @@ module.exports = {
                 }
             })
         }
-
     },
 
     uploadImage:function(req,res)
@@ -352,7 +385,6 @@ module.exports = {
         var idArticle = req.body.idArticle;
         console.log('idArticle to edit: '+ idArticle);
         Article.findOne({idArticle:idArticle}).exec(function (err, article) {
-            console.log('article '+ article + ' trouvé');
 
             if (article) {
                 var dataarticle = req.body.article;
@@ -399,13 +431,10 @@ module.exports = {
                     }
                     if(article)
                     {
-                        console.log(article);
                         Image.destroy({idArticle:article.idArticle}).exec(function(err,images){
                             if(images)
                             {
-                                console.log(images)
                                 images.forEach(function(image){
-                                    console.log(image);
                                     fs.unlink(sails.config.path+repertoireImage+image.cheminImage, function (err) {
                                         if (err) throw err;
                                         console.log('successfully deleted '+sails.config.path+repertoireImage+image.cheminImage);
@@ -453,7 +482,6 @@ module.exports = {
         ArticleService.getArticleById({idarticle:req.body.idarticle},function(err,article){
             if(article)
             {
-                console.log(article);
                 article.statut='I';
                 article.save(function (err, article) {
                     if(article)
@@ -476,7 +504,6 @@ module.exports = {
         ArticleService.getArticleById({idarticle: req.body.idarticle}, function (err, article) {
             if(article)
             {
-                console.log(article);
                 article.statut='A';
                 article.save(function (err, article) {
                     if(article)
@@ -499,7 +526,6 @@ module.exports = {
 
     signalerArticle:function(req,res)
     {
-        console.log(JSON.stringify(req.body));
         var article =req.body.idarticle;
         ArticleService.getArticleById({idarticle: req.body.signalement.idarticle}, function (err, article) {
 
@@ -530,19 +556,29 @@ module.exports = {
             nombreArticle=found;
             ArticleService.getAllArticleActifByLimit({limit:req.query.limit,skip:req.query.skip},function(err,articles) {
                 if (articles) {
-                    articles.forEach(function (article) {
-                        //article.dateAjout = moment(article.dateAjout).format("DD/MM/YYYY");
-                        Utilisateur.findOne({id:article.utilisateur.id}).populate('photo').exec(function(err,utilisateur){
-                            article["photo"]=utilisateur.photo;
+                    async.forEach(articles,function(article,callback){
+                        Photo.findOne({idPhoto:article.utilisateur.photo}).exec(function(err,photo){
+                            article.utilisateur.photo=photo;
                         });
-                       /* Photo.findOne({idPhoto:article.utilisateur.photo}).exec(function(err,photo){
-                            console.log( "photo detail" +JSON.stringify(photo));
-                            article["photo"]=photo;
-                            console.log(JSON.stringify(article));
+                        callback();
+                    },function(err){
 
+                        if(!err)
+                        {
+                            res.send({articles: articles,hasArticle:true,nombreArticles:articles.length,nombreArticleTotal:nombreArticle});
+                        }
+                    })
+
+                        /*articles.forEach(function (article) {
+                        //article.dateAjout = moment(article.dateAjout).format("DD/MM/YYYY");
+                      /* Utilisateur.findOne({id:².utilisateur.id}).populate('photo').exec(function(err,utilisateur){
+                            article["photo"]=utilisateur.photo;
+                        });*/
+                        /*Photo.findOne({idPhoto:article.utilisateur.photo}).exec(function(err,photo){
+                            console.log(JSON.stringify(photo));
+                            article.utilisateur.photo=photo;
                         })*/
-                    });
-                    res.send({articles: articles,hasArticle:true,nombreArticles:articles.length,nombreArticleTotal:nombreArticle});
+                   // });
                 }
                 else
                 {
@@ -601,6 +637,7 @@ module.exports = {
 
     getArticleById:function(req,res){
         ArticleService.getArticleById({idarticle:req.query.idarticle},function(err,article){
+            console.log(JSON.stringify(article));
             if (article !==null && typeof article !=='undefined'&& Object.keys(article).length) {
                     //article.dateAjout=moment(article.dateAjout).format("DD/MM/YYYY");
                     res.send({article: article,success:true});
@@ -616,11 +653,9 @@ module.exports = {
     getArticlesVenduByUser:function(req,res)
     {
         sails.log("ArticleController.getArticlesVendutByUser");
+        sails.log("user id "+req.query.iduser);
         ArticleService.getArticlesVenduByUser({iduser:req.query.iduser},function(err,articles){
             if (articles) {
-                /*articles.forEach(function(article){
-                    article.dateAjout=moment(article.dateAjout).format("DD/MM/YYYY");
-                });*/
                 res.send({articles: articles,success: true});
             }
 
@@ -634,11 +669,9 @@ module.exports = {
     getArticlesByUser:function(req,res)
     {
         sails.log("ArticleController.getArticlesByUser");
+        sails.log("user id "+req.query.iduser);
         ArticleService.getArticlesByUser({iduser:req.query.iduser},function(err,articles){
             if (articles) {
-               /* articles.forEach(function(article){
-                    article.dateAjout=moment(article.dateAjout).format("DD/MM/YYYY");
-                });*/
                 res.send({articles: articles,success: true});
             }else if (err) {
                 res.send({success: false,err:err});
@@ -672,9 +705,7 @@ module.exports = {
       {
          if(article)
          {
-           console.log("article mis à jour id "+JSON.stringify(article[0]));
            ArticleService.getArticleById({idarticle:article[0].idArticle},function(err,article){
-             console.log("article modifier"+JSON.stringify(article));
               res.send({success:true,article:article});
 
            })
@@ -695,12 +726,9 @@ module.exports = {
         return res.send({success: false, message: req.__('message-erreur-suppression')})
       }
       if (article) {
-        console.log(article);
         Image.destroy({idArticle: article.idArticle}).exec(function (err, images) {
           if (images) {
-            console.log(images)
             images.forEach(function (image) {
-              console.log(image);
               fs.unlink(sails.config.path + repertoireImage + image.cheminImage, function (err) {
                 if (err) throw err;
                 console.log('successfully deleted ' + sails.config.path + repertoireImage + image.cheminImage);
@@ -717,7 +745,6 @@ module.exports = {
   {
       sails.log("ArticleController.getArticleByParam");
     ArticleService.getArticleByParam({parametre:req.body},function(err,articles){
-      console.log("articles trouvés: "+JSON.stringify(articles));
       res.send({success:true,articles:articles});
 
     })

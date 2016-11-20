@@ -1,6 +1,8 @@
 /**
  * Created by fleundeu on 19/04/2015.
  */
+var async = require("async");
+
 module.exports={
     getAllArticleActif:function(cb)
     {
@@ -24,7 +26,27 @@ module.exports={
         {
             if(articles)
             {
-                val(null, articles);
+                async.forEach(articles,function(article,callback){
+
+                        console.log("check photo");
+                        console.log("id photo ==>"+article.utilisateur.photo);
+                        Photo.findOne({idPhoto:article.utilisateur.photo}).exec(function(err,photo){
+                            article.utilisateur.photo=photo;
+                            callback();
+                        })
+                    },
+                    function(err){
+                        console.log("err ==>"+err);
+                        if(err)
+                        {
+                            console.log(err)
+                            val(err, null);
+
+                        }else
+                        {
+                            val(null, articles);
+                        }
+                    });
             }
             else {
                 console.log(err);
@@ -100,8 +122,9 @@ module.exports={
             if(article)
             {
                 console.log("check photo");
+                console.log("id photo ==>"+article.utilisateur.photo);
                 Photo.findOne({idPhoto:article.utilisateur.photo}).exec(function(err,photo){
-                    article["photo"]=photo;
+                    article.photo=photo;
                     val(null,article);
                 })
 

@@ -9,7 +9,7 @@ moment.locale('fr');
 var fs = require('fs');
 var path =require('path');
 var jwt = require('jsonwebtoken');
-var bcrypt=require('bcrypt');
+var bcrypt=require('bcrypt-nodejs');
 var trim =require('trim');
 var pathPhoto='./assets/photoUtilisateur/';
 var pathFromView='/photoUtilisateur/';
@@ -327,7 +327,7 @@ module.exports = {
                     if(uti)
                     {
                         smsService.sendSMS(code,req.query.telephone);
-                        res.send({codeVerificationEnvoye:'true'});
+                        res.send({codeVerificationEnvoye:'true',user:uti[0]});
                     }
                     else
                     {
@@ -360,10 +360,16 @@ module.exports = {
                 utilisateur[0].confirmTel="";
                 console.log(utilisateur[0].id);
                 Utilisateur.update({id: utilisateur[0].id}, {confirmTel:utilisateur[0].confirmTel}).exec(function (err, uti) {
-                    if (uti) {
-                        console.log("uti"+JSON.stringify(uti));
-
-                        res.send({codeCorrecte: 'true'});
+                    if (uti[0]) {
+                        if(uti[0].confirmEmail=="")
+                        {
+                            uti[0].emailVerifie=true;
+                        }
+                        if(uti[0].confirmTel=="")
+                        {
+                            uti[0].telephoneVerifie=true;
+                        }
+                        res.send({codeCorrecte: 'true',user:uti[0]});
                     }
                     else {
                         res.send({codeCorrecte: 'false'});
@@ -525,7 +531,6 @@ module.exports = {
     authenticate:function(req,res)
     {
         console.log("UtilisateurController.authenticate");
-        console.log("mot de passe recu "+req.body.password);
         UtilisateurService.getUtilisateurByEmailAndPassword({email:req.body.email,password:req.body.password},function(err,utilisateur){
             if (err) {
                 console.log("L'erreur suivante est survenue lors de l'inscription ==> "+err);
@@ -537,6 +542,7 @@ module.exports = {
             if (utilisateur) {
                 console.log("Authentification reussi");
                 console.log("Utilisateur authentifié ==>"+utilisateur.nom);
+
                 utilisateur.token = jwt.sign(utilisateur, token_secret);
                 utilisateur.dateDerniereConnexion=new Date();
                 utilisateur.save(function(err, utilisateur1) {
@@ -1248,5 +1254,4 @@ module.exports = {
            }
         })
     }
-
 };

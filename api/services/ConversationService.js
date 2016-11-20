@@ -7,7 +7,7 @@ moment.locale('fr');
 module.exports={
   getConversationByUser:function(cb,val)
   {
-    Conversation.find().populate('article').populate('utilisateur1').populate('utilisateur2').where({
+    Conversation.find().populate('article').populate('utilisateur1').populate('utilisateur2').populate('messages').where({
       or : [
         { utilisateur1: cb.iduser },
         { utilisateur2: cb.iduser }
@@ -23,7 +23,6 @@ module.exports={
             i++;
             if(i==conversations.length){
               val(null, conversations);
-
             }
           })
         });

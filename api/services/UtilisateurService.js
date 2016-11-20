@@ -1,6 +1,6 @@
 /**Created by fleundeu on 19/04/2015.
  */
-var bcrypt=require('bcrypt');
+var bcrypt=require('bcrypt-nodejs');
 var passwordHash = require('password-hash');
 module.exports={
     getAllUtilisateurActif:function(cb)
@@ -60,7 +60,6 @@ module.exports={
          Utilisateur.findOne({email:cb.email}).populate('photo').exec(function(err,utilisateur){
              if(utilisateur)
              {
-                 console.log("UtilisateurService password:==>"+cb.password);
                  if(passwordHash.verify(cb.password, utilisateur.password))
                  {
                      console.log("password identique");
