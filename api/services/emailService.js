@@ -240,12 +240,12 @@ module.exports = {
      * **************************************************************/
     sendMessageContact:function(infoContact)
     {
+         console.log(infoContact);
         emailTemplates(templatesSignalerArticle,function(err,template){
             if (err) {
                 console.log(err);
             } else {
-                template('message-contact',{sujet:infoContact.sujet,infoContact:'contact@occazstreet.com',urlSite:'www.occazstreet.com',message:infoContact.message, email:infoContact.email, nom:infoContact.nom
-                }, function(err, html) {
+                template('message-contact',{sujet:infoContact.sujet,infoContact:'contact@occazstreet.com',urlSite:'www.occazstreet.com',message:infoContact.message, email:infoContact.email, nom:infoContact.nom}, function(err, html) {
                     if (err) {
                         console.log(err);
                     } else {
