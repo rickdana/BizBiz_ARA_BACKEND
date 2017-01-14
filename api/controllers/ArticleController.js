@@ -185,6 +185,7 @@ module.exports = {
     /*Procees creation d'un article mobile*/
     createArticleP: function (req, res) {
         var article=req.body;
+        console.log(article);
         if(article.utilisateur==0)
         {
             console.error("article.addArticleP=>Une erreur a été rencontrée lors de l'ajout de l'article: "+err);
@@ -196,31 +197,36 @@ module.exports = {
                 if(article)
                 {
                     var pushInfo={};
-                    pushInfo.type='newMessage';
-                    pushInfo.title='Messagerie OccazStreet';
-                    pushInfo.body='Vous avez recu un nouveau message sur Occazstreet';
+                    pushInfo.type='newArticle';
+                    pushInfo.title='Nouvelle annonce pour vous';
+                    pushInfo.body='Une nouvelle annonce vient d\'être créee et elle pourrait vous interesser :)';
                     emailService.sendMailArticleAjoute(article);
                     Devicepush.find().exec(function(err,registrationTokens){
                         async.forEach(registrationTokens,function(token,callback){
                             var pushMessage = { //this may vary according to the message type (single recipient, multicast, topic, et cetera)
                                 to: token.deviceToken,
                                 notification: {
-                                    title: 'Nouvelle annonce',
-                                    body: 'Une nouvelle annonce vient d\'être créee et elle pourrait vous interesser'
+                                    title: 'Nouvelle annonce pour vous',
+                                    body: 'Une nouvelle annonce vient d\'être créee et elle pourrait vous interesser :)'
                                 },
                                 data: {  //you can send only notification or only data(or include both)
                                     data:article,
                                     pushInfo:pushInfo
                                 }
                             };
-                            fcm.send(pushMessage, function(err, response){
-                                if (err) {
-                                    console.log("Something has gone wrong!");
-                                } else {
-                                    callback();
-                                    console.log("Successfully sent with response: ", response);
-                                }
-                            });
+                            console.log(article.utilisateur!=token.idUtilisateur);
+                            if(article.utilisateur!=token.idUtilisateur)
+                            {
+                                fcm.send(pushMessage, function(err, response){
+                                    if (err) {
+                                        console.log("Something has gone wrong!");
+                                    } else {
+                                        callback();
+                                        console.log("Successfully sent with response: ", response);
+                                    }
+                                });
+
+                            }
 
                         },
                         function(err){
@@ -268,6 +274,28 @@ module.exports = {
                             if (err)
                             {
                                 console.log("Une erreur a été rencontrée lors de la création de l'image "+err);
+                                Article.destroy({idArticle:req.body.idArticle}).exec(function(err,article)
+                                {
+                                    if(err)
+                                    {
+                                        console.log("erreur lors du rollback de l'article "+err);
+                                        return res.send({success: false});
+                                    }
+                                    if(article)
+                                    {
+                                        Image.destroy({idArticle:article.idArticle}).exec(function(err,images){
+                                            if(images)
+                                            {
+                                                images.forEach(function(image){
+                                                    fs.unlink(sails.config.paths.public+repertoireImage+image.cheminImage, function (err) {
+                                                        if (err) throw err;
+                                                        console.info('successfully deleted '+sails.config.paths.public+repertoireImage+image.cheminImage);
+                                                    });
+                                                })
+                                            }
+                                        });
+                                    }
+                                });
                                 res.send({success:false});
                             }
 
@@ -544,6 +572,7 @@ module.exports = {
     },
     sendMessageContact:function(req,res)
     {
+        console.log(req.body.contact);
         emailService.sendMessageContact(req.body.contact);
         res.send({success:true});
     },
