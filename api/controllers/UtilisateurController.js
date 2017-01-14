@@ -731,7 +731,7 @@ module.exports = {
 
     oauth:function(req,res)
     {
-        console.log(JSON.stringify(req.body));
+        console.log("UtilisateurController.oauth");
         var https = require('https');
         var user={};
         if(req.body.provider==='Facebook')
@@ -740,7 +740,7 @@ module.exports = {
             var optionsGet = {
                 host : 'graph.facebook.com',
                 port : 443,
-                path : '/v2.5/me?access_token='+req.body.token+'&fields=birthday,email,location,gender,first_name,last_name,picture{url}'
+                path : '/v2.8/me?access_token='+req.body.token+'&fields=birthday,email,location,gender,first_name,last_name,picture{url}'
             };
             var userData=req.body;
             var reqGet = https.get(optionsGet, function(result) {
