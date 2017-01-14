@@ -65,7 +65,6 @@ module.exports = {
           });
         }
         if(lesmessages) {
-          console.log("Les messages ++++"+JSON.stringify(lesmessages));
           var hasMessage;
           if (lesmessages.length > 0) {
             hasMessage = true;
