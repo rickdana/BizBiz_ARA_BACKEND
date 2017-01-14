@@ -62,7 +62,7 @@ module.exports = {
             index:true,
             required:true,
             notNull:true,
-            defaultsTo:Date.now
+            defaultsTo:new Date()
         },
         dateModification:{
             type:'datetime',
